@@ -1,0 +1,41 @@
+/* istanbul ignore file */
+const pool = require('../src/Infrastructures/database/postgres/pool');
+
+const tableName = 'comments';
+
+const ThreadCommentsTableTestHelper = {
+  async addComment({
+    id = 'comment-1', threadID = 'thread-1', content = 'test comment', ownerID = 'user-1',
+  }) {
+    const query = {
+      text: `INSERT INTO ${tableName} VALUES($1, $2, $3, $4, current_timestamp, NULL, NULL)`,
+      values: [id, threadID, content, ownerID],
+    };
+    await pool.query(query);
+  },
+
+  async deleteComment({
+    id = 'comment-1',
+  }) {
+    const query = {
+      text: `UPDATE ${tableName} SET deleted_at = current_timestamp WHERE id = $1 RETURNING id`,
+      values: [id],
+    };
+    await pool.query(query);
+  },
+
+  async getThreadComments(id) {
+    const query = {
+      text: `SELECT * FROM ${tableName} WHERE thread_id = $1`,
+      values: [id],
+    };
+    const result = await pool.query(query);
+    return result.rows;
+  },
+
+  async cleanTable() {
+    await pool.query(`DELETE FROM ${tableName}`);
+  },
+};
+
+module.exports = ThreadCommentsTableTestHelper;
