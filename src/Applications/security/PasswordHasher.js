@@ -3,7 +3,7 @@ class PasswordHasher {
     throw new Error('PASSWORD_HASH.METHOD_NOT_IMPLEMENTED');
   }
 
-  async comparePassword(plain, encrypted) {
+  async matchPassword(plain, encrypted) {
     throw new Error('PASSWORD_HASH.METHOD_NOT_IMPLEMENTED');
   }
 }

@@ -2,7 +2,7 @@ const NotFoundError = require('../NotFoundError');
 const ClientError = require('../ClientError');
 
 describe('NotFoundError', () => {
-  it('should create error correctly', () => {
+  it('should create NotFoundError correctly', () => {
     const notFoundError = new NotFoundError('resource not found');
 
     expect(notFoundError).toBeInstanceOf(NotFoundError);

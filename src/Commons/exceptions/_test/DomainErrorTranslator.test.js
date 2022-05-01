@@ -14,7 +14,7 @@ describe('DomainErrorTranslator', () => {
       .toStrictEqual(new InvariantError('tidak dapat membuat user baru karena username mengandung karakter terlarang'));
   });
 
-  it('should return original error when error message is not needed to translate', () => {
+  it('should return original error when error message cannot be translated', () => {
     // Arrange
     const error = new Error('some_error_message');
 
