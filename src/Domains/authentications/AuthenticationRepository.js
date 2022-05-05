@@ -1,9 +1,9 @@
 class AuthenticationRepository {
-  async addToken(token) {
+  async registerToken(token) {
     throw new Error('AUTHENTICATION_REPOSITORY.METHOD_NOT_IMPLEMENTED');
   }
 
-  async checkTokenAvailability(token) {
+  async verifyTokenAvailability(token) {
     throw new Error('AUTHENTICATION_REPOSITORY.METHOD_NOT_IMPLEMENTED');
   }
 

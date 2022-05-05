@@ -1,20 +1,17 @@
 const { StatusCodes } = require('http-status-codes');
-const LoginUserUseCase = require('../../../../Applications/use_case/LoginUserUseCase');
-const RefreshAuthenticationUseCase = require('../../../../Applications/use_case/RefreshAuthenticationUseCase');
-const LogoutUserUseCase = require('../../../../Applications/use_case/LogoutUserUseCase');
+const AuthenticationUseCases = require('../../../../Applications/use_case/AuthenticationUseCases');
 
 class AuthenticationsHandler {
   constructor(container) {
     this._container = container;
-
     this.loginHandler = this.loginHandler.bind(this);
     this.refreshHandler = this.refreshHandler.bind(this);
     this.logoutHandler = this.logoutHandler.bind(this);
   }
 
   async loginHandler(request, h) {
-    const loginUserUseCase = this._container.getInstance(LoginUserUseCase.name);
-    const { accessToken, refreshToken } = await loginUserUseCase.execute(request.payload);
+    const authenticationUseCases = this._container.getInstance(AuthenticationUseCases.name);
+    const { accessToken, refreshToken } = await authenticationUseCases.login(request.payload);
     return h.response({
       status: 'success',
       data: {
@@ -25,10 +22,8 @@ class AuthenticationsHandler {
   }
 
   async refreshHandler(request) {
-    const refreshAuthenticationUseCase = this._container
-      .getInstance(RefreshAuthenticationUseCase.name);
-    const accessToken = await refreshAuthenticationUseCase.execute(request.payload);
-
+    const authenticationUseCases = this._container.getInstance(AuthenticationUseCases.name);
+    const accessToken = await authenticationUseCases.refresh(request.payload);
     return {
       status: 'success',
       data: {
@@ -38,8 +33,8 @@ class AuthenticationsHandler {
   }
 
   async logoutHandler(request) {
-    const logoutUserUseCase = this._container.getInstance(LogoutUserUseCase.name);
-    await logoutUserUseCase.execute(request.payload);
+    const authenticationUseCases = this._container.getInstance(AuthenticationUseCases.name);
+    await authenticationUseCases.logout(request.payload);
     return {
       status: 'success',
     };

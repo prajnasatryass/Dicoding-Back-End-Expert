@@ -2,19 +2,19 @@ class NewAuth {
   constructor(payload) {
     this._verifyPayload(payload);
 
-    this.accessToken = payload.accessToken;
-    this.refreshToken = payload.refreshToken;
-  }
-
-  _verifyPayload(payload) {
     const { accessToken, refreshToken } = payload;
 
+    this.accessToken = accessToken;
+    this.refreshToken = refreshToken;
+  }
+
+  _verifyPayload({ accessToken, refreshToken }) {
     if (!accessToken || !refreshToken) {
-      throw new Error('NEW_AUTH.NOT_CONTAIN_NEEDED_PROPERTY');
+      throw new Error('NEW_AUTH.MISSING_REQUIRED_PROPERTIES');
     }
 
     if (typeof accessToken !== 'string' || typeof refreshToken !== 'string') {
-      throw new Error('NEW_AUTH.NOT_MEET_DATA_TYPE_SPECIFICATION');
+      throw new Error('NEW_AUTH.DATA_TYPE_MISMATCH');
     }
   }
 }

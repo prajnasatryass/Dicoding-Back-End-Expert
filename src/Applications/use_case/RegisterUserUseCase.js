@@ -1,16 +1,16 @@
-const NewUser = require('../../Domains/users/entities/NewUser');
+const RegisterUser = require('../../Domains/users/entities/RegisterUser');
 
 class RegisterUserUseCase {
-  constructor({ userRepository, passwordHasher }) {
+  constructor({ userRepository, hasher }) {
     this._userRepository = userRepository;
-    this._passwordHasher = passwordHasher;
+    this._hasher = hasher;
   }
 
   async execute(useCasePayload) {
-    const newUser = new NewUser(useCasePayload);
-    await this._userRepository.verifyUsernameAvailability(newUser.username);
-    newUser.password = await this._passwordHasher.hash(newUser.password);
-    return this._userRepository.registerUser(newUser);
+    const registerUser = new RegisterUser(useCasePayload);
+    await this._userRepository.verifyUsernameAvailability(registerUser.username);
+    registerUser.password = await this._hasher.hash(registerUser.password);
+    return this._userRepository.registerUser(registerUser);
   }
 }
 

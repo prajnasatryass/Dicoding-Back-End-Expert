@@ -1,40 +1,32 @@
 const NewAuth = require('../NewAuth');
 
-describe('NewAuth entities', () => {
-  it('should throw error when payload not contain needed property', () => {
-    // Arrange
+describe('NewAuth', () => {
+  it('should throw Error if payload is missing one or more required properties', () => {
     const payload = {
-      accessToken: 'accessToken',
+      accessToken: 'access_token',
     };
 
-    // Action & Assert
-    expect(() => new NewAuth(payload)).toThrowError('NEW_AUTH.NOT_CONTAIN_NEEDED_PROPERTY');
+    expect(() => new NewAuth(payload)).toThrowError('NEW_AUTH.MISSING_REQUIRED_PROPERTIES');
   });
 
-  it('should throw error when payload not meet data type specification', () => {
-    // Arrange
+  it('should throw Error if one or more payload properties does not match specified data type', () => {
     const payload = {
-      accessToken: 'accessToken',
-      refreshToken: 1234,
+      accessToken: 123,
+      refreshToken: {},
     };
 
-    // Action & Assert
-    expect(() => new NewAuth(payload)).toThrowError('NEW_AUTH.NOT_MEET_DATA_TYPE_SPECIFICATION');
+    expect(() => new NewAuth(payload)).toThrowError('NEW_AUTH.DATA_TYPE_MISMATCH');
   });
 
-  it('should create NewAuth entities correctly', () => {
-    // Arrange
+  it('should create NewAuth correctly', () => {
     const payload = {
-      accessToken: 'accessToken',
-      refreshToken: 'refreshToken',
+      accessToken: 'access_token',
+      refreshToken: 'refresh_token',
     };
 
-    // Action
-    const newAuth = new NewAuth(payload);
+    const { accessToken, refreshToken } = new NewAuth(payload);
 
-    // Assert
-    expect(newAuth).toBeInstanceOf(NewAuth);
-    expect(newAuth.accessToken).toEqual(payload.accessToken);
-    expect(newAuth.refreshToken).toEqual(payload.refreshToken);
+    expect(accessToken).toEqual(payload.accessToken);
+    expect(refreshToken).toEqual(payload.refreshToken);
   });
 });

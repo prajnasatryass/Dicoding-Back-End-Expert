@@ -14,7 +14,7 @@ const ThreadsTableTestHelper = {
     await pool.query(query);
   },
 
-  async findThreadById(id) {
+  async getThread(id) {
     const query = {
       text: `SELECT * FROM ${tableName} WHERE id = $1`,
       values: [id],
@@ -24,7 +24,7 @@ const ThreadsTableTestHelper = {
   },
 
   async cleanTable() {
-    await pool.query(`DELETE FROM ${tableName}`);
+    await pool.query(`TRUNCATE TABLE ${tableName}`);
   },
 };
 

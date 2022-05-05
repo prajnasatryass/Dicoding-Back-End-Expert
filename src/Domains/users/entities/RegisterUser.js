@@ -1,4 +1,4 @@
-class NewUser {
+class RegisterUser {
   constructor(payload) {
     this._verifyPayload(payload);
 
@@ -11,21 +11,21 @@ class NewUser {
 
   _verifyPayload({ username, password, fullname }) {
     if (!username || !password || !fullname) {
-      throw new Error('NEW_USER.NOT_CONTAIN_NEEDED_PROPERTY');
+      throw new Error('REGISTER_USER.MISSING_REQUIRED_PROPERTIES');
     }
 
     if (typeof username !== 'string' || typeof password !== 'string' || typeof fullname !== 'string') {
-      throw new Error('NEW_USER.NOT_MEET_DATA_TYPE_SPECIFICATION');
+      throw new Error('REGISTER_USER.DATA_TYPE_MISMATCH');
     }
 
     if (username.length > 50) {
-      throw new Error('NEW_USER.USERNAME_LIMIT_CHAR');
+      throw new Error('REGISTER_USER.USERNAME_TOO_LONG');
     }
 
     if (!username.match(/^[\w]+$/)) {
-      throw new Error('NEW_USER.USERNAME_CONTAIN_RESTRICTED_CHARACTER');
+      throw new Error('REGISTER_USER.USERNAME_NOT_ALPHANUMERIC');
     }
   }
 }
 
-module.exports = NewUser;
+module.exports = RegisterUser;

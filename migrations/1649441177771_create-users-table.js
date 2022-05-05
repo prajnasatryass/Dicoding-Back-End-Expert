@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-
 const { PgTypes } = require('../src/Commons/utils/constants');
 
 const tableName = 'users';

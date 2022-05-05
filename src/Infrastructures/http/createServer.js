@@ -1,5 +1,5 @@
 const Hapi = require('@hapi/hapi');
-const { getReasonPhrase } = require('http-status-codes');
+const { StatusCodes, getReasonPhrase } = require('http-status-codes');
 const ClientError = require('../../Commons/exceptions/ClientError');
 const DomainErrorTranslator = require('../../Commons/exceptions/DomainErrorTranslator');
 const users = require('../../Interfaces/http/api/users');
@@ -22,10 +22,6 @@ const createServer = async (container) => {
     },
   ]);
 
-  server.events.on('request', (request) => {
-    console.log(`\n${new Date().toISOString()}\n${request.info.remoteAddress}: ${request.method.toUpperCase()} ${request.url.pathname}${request.url.search}`);
-  });
-
   server.ext('onPreResponse', (request, h) => {
     const { response } = request;
 
@@ -33,25 +29,20 @@ const createServer = async (container) => {
       const translatedError = DomainErrorTranslator.translate(response);
 
       if (translatedError instanceof ClientError) {
-        const newResponse = h.response({
+        return h.response({
           status: 'fail',
           message: translatedError.message,
-        });
-        newResponse.code(translatedError.statusCode);
-        return newResponse;
+        }).code(translatedError.statusCode);
       }
 
-      // mempertahankan penanganan client error oleh hapi secara native, seperti 404, etc.
       if (!translatedError.isServer) {
         return h.continue;
       }
 
-      const newResponse = h.response({
+      return h.response({
         status: 'error',
         message: 'terjadi kegagalan pada server kami',
-      });
-      newResponse.code(500);
-      return newResponse;
+      }).code(StatusCodes.INTERNAL_SERVER_ERROR);
     }
 
     return h.continue;

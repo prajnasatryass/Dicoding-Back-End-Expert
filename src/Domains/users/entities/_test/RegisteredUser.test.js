@@ -1,41 +1,35 @@
 const RegisteredUser = require('../RegisteredUser');
 
-describe('a RegisteredUser entities', () => {
-  it('should throw error when payload did not contain needed property', () => {
-    // Arrange
+describe('RegisteredUser', () => {
+  it('should throw Error if payload is missing one or more required properties', () => {
     const payload = {
-      username: 'dicoding',
-      fullname: 'Dicoding Indonesia',
+      id: 'user-1',
+      username: 'John10',
     };
 
-    // Action and Assert
-    expect(() => new RegisteredUser(payload)).toThrowError('REGISTERED_USER.NOT_CONTAIN_NEEDED_PROPERTY');
+    expect(() => new RegisteredUser(payload)).toThrowError('REGISTERED_USER.MISSING_REQUIRED_PROPERTIES');
   });
 
-  it('should throw error when payload did not meet data type specification', () => {
-    // Arrange
+  it('should throw Error if one or more payload properties does not match specified data type', () => {
     const payload = {
       id: 123,
-      username: 'dicoding',
+      username: 'John10',
       fullname: {},
     };
 
-    // Action and Assert
-    expect(() => new RegisteredUser(payload)).toThrowError('REGISTERED_USER.NOT_MEET_DATA_TYPE_SPECIFICATION');
+    expect(() => new RegisteredUser(payload)).toThrowError('REGISTERED_USER.DATA_TYPE_MISMATCH');
   });
 
-  it('should create registeredUser object correctly', () => {
-    // Arrange
+  it('should create RegisteredUser correctly', () => {
     const payload = {
-      id: 'user-123',
-      username: 'dicoding',
-      fullname: 'Dicoding Indonesia',
+      id: 'user-1',
+      username: 'John10',
+      fullname: 'John Doe',
     };
 
-    // Action
     const registeredUser = new RegisteredUser(payload);
 
-    // Assert
+    expect(registeredUser).toBeInstanceOf(RegisteredUser);
     expect(registeredUser.id).toEqual(payload.id);
     expect(registeredUser.username).toEqual(payload.username);
     expect(registeredUser.fullname).toEqual(payload.fullname);

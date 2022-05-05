@@ -1,6 +1,4 @@
-/* eslint-disable camelcase */
-// TODO: ADD TEST (?)
-
+/* istanbul ignore file */
 const HttpMethods = {
   GET: 'GET',
   POST: 'POST',
@@ -15,7 +13,4 @@ const PgTypes = {
   VARCHAR: (n) => `VARCHAR(${n})`,
 };
 
-module.exports = {
-  HttpMethods,
-  PgTypes,
-};
+module.exports = { HttpMethods, PgTypes };

@@ -1,27 +1,49 @@
 const DomainErrorTranslator = require('../DomainErrorTranslator');
 const InvariantError = require('../InvariantError');
 
+// TODO: ADD MISSING ERROR MESSAGES
 describe('DomainErrorTranslator', () => {
   it('should translate error correctly', () => {
-    // TODO: UPDATE
-    expect(DomainErrorTranslator.translate(new Error('REGISTER_USER.NOT_CONTAIN_NEEDED_PROPERTY')))
-      .toStrictEqual(new InvariantError('tidak dapat membuat user baru karena properti yang dibutuhkan tidak ada'));
-    expect(DomainErrorTranslator.translate(new Error('REGISTER_USER.NOT_MEET_DATA_TYPE_SPECIFICATION')))
-      .toStrictEqual(new InvariantError('tidak dapat membuat user baru karena tipe data tidak sesuai'));
-    expect(DomainErrorTranslator.translate(new Error('REGISTER_USER.USERNAME_LIMIT_CHAR')))
-      .toStrictEqual(new InvariantError('tidak dapat membuat user baru karena karakter username melebihi batas limit'));
-    expect(DomainErrorTranslator.translate(new Error('REGISTER_USER.USERNAME_CONTAIN_RESTRICTED_CHARACTER')))
-      .toStrictEqual(new InvariantError('tidak dapat membuat user baru karena username mengandung karakter terlarang'));
+    expect(DomainErrorTranslator.translate(new Error('REGISTER_USER.MISSING_REQUIRED_PROPERTIES')))
+      .toStrictEqual(new InvariantError('registrasi user gagal: Ada properti wajib yang tidak disediakan'));
+    expect(DomainErrorTranslator.translate(new Error('REGISTER_USER.DATA_TYPE_MISMATCH')))
+      .toStrictEqual(new InvariantError('registrasi user gagal: Ada properti dengan tipe data yang tidak sesuai'));
+    expect(DomainErrorTranslator.translate(new Error('REGISTER_USER.USERNAME_TOO_LONG')))
+      .toStrictEqual(new InvariantError('registrasi user gagal: Panjang username melebihi 50 karakter'));
+    expect(DomainErrorTranslator.translate(new Error('REGISTER_USER.USERNAME_NOT_ALPHANUMERIC')))
+      .toStrictEqual(new InvariantError('registrasi user gagal: Username mengandung karakter non-alfanumerik'));
+
+    expect(DomainErrorTranslator.translate(new Error('REGISTERED_USER.MISSING_REQUIRED_PROPERTIES')))
+      .toStrictEqual(new InvariantError('registrasi user gagal: Ada properti wajib yang tidak disediakan'));
+    expect(DomainErrorTranslator.translate(new Error('REGISTERED_USER.DATA_TYPE_MISMATCH')))
+      .toStrictEqual(new InvariantError('registrasi user gagal: Ada properti dengan tipe data yang tidak sesuai'));
+
+    expect(DomainErrorTranslator.translate(new Error('NEW_AUTH.MISSING_REQUIRED_PROPERTIES')))
+      .toStrictEqual(new InvariantError('login gagal: Ada properti wajib yang tidak disediakan'));
+    expect(DomainErrorTranslator.translate(new Error('NEW_AUTH.DATA_TYPE_MISMATCH')))
+      .toStrictEqual(new InvariantError('login gagal: Ada properti dengan tipe data yang tidak sesuai'));
+
+    expect(DomainErrorTranslator.translate(new Error('USER_LOGIN.MISSING_REQUIRED_PROPERTIES')))
+      .toStrictEqual(new InvariantError());
+    expect(DomainErrorTranslator.translate(new Error('USER_LOGIN.DATA_TYPE_MISMATCH')))
+      .toStrictEqual(new InvariantError());
+
+    expect(DomainErrorTranslator.translate(new Error('AUTHENTICATION_USE_CASES.REFRESH.MISSING_REFRESH_TOKEN')))
+      .toStrictEqual(new InvariantError());
+    expect(DomainErrorTranslator.translate(new Error('AUTHENTICATION_USE_CASES.REFRESH.DATA_TYPE_MISMATCH')))
+      .toStrictEqual(new InvariantError());
+
+    expect(DomainErrorTranslator.translate(new Error('AUTHENTICATION_USE_CASES.LOGOUT.MISSING_REFRESH_TOKEN')))
+      .toStrictEqual(new InvariantError());
+    expect(DomainErrorTranslator.translate(new Error('AUTHENTICATION_USE_CASES.LOGOUT.DATA_TYPE_MISMATCH')))
+      .toStrictEqual(new InvariantError());
   });
 
-  it('should return original error when error message cannot be translated', () => {
-    // Arrange
+  it('should return original error if error message cannot be translated', () => {
     const error = new Error('some_error_message');
 
-    // Action
     const translatedError = DomainErrorTranslator.translate(error);
 
-    // Assert
     expect(translatedError).toStrictEqual(error);
   });
 });

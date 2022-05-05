@@ -1,51 +1,45 @@
 const RegisterUser = require('../../../Domains/users/entities/RegisterUser');
 const RegisteredUser = require('../../../Domains/users/entities/RegisteredUser');
 const UserRepository = require('../../../Domains/users/UserRepository');
-const PasswordHasher = require('../../security/PasswordHasher');
+const Hasher = require('../../security/Hasher');
 const RegisterUserUseCase = require('../RegisterUserUseCase');
 
 describe('RegisterUserUseCase', () => {
-  it('should correctly orchestrate register user action', async () => {
-    // Arrange
+  it('should orchestrate register user action correctly', async () => {
     const useCasePayload = {
-      username: 'test',
+      username: 'John10',
       password: 'secret',
-      fullname: 'Test User',
+      fullname: 'John Doe',
     };
-    const expectedRegisteredUser = new RegisteredUser({
+    const expected = new RegisteredUser({
       id: 'user-1',
       username: useCasePayload.username,
       fullname: useCasePayload.fullname,
     });
 
-    /** creating dependencies of use case */
     const mockUserRepository = new UserRepository();
-    const mockPasswordHasher = new PasswordHasher();
+    const mockHasher = new Hasher();
 
-    /** mocking needed functions */
-    mockUserRepository.verifyAvailableUsername = jest.fn()
+    mockUserRepository.verifyUsernameAvailability = jest.fn()
       .mockImplementation(() => Promise.resolve());
-    mockPasswordHasher.hash = jest.fn()
-      .mockImplementation(() => Promise.resolve('encrypted_password'));
+    mockHasher.hash = jest.fn()
+      .mockImplementation(() => Promise.resolve('hashed_password'));
     mockUserRepository.registerUser = jest.fn()
-      .mockImplementation(() => Promise.resolve(expectedRegisteredUser));
+      .mockImplementation(() => Promise.resolve(expected));
 
-    /** creating use case instances */
-    const getUserUseCase = new RegisterUserUseCase({
+    const registerUserUseCase = new RegisterUserUseCase({
       userRepository: mockUserRepository,
-      passwordHasher: mockPasswordHasher,
+      hasher: mockHasher,
     });
 
-    // Action
-    const registeredUser = await getUserUseCase.execute(useCasePayload);
+    const actual = await registerUserUseCase.execute(useCasePayload);
 
-    // Assert
-    expect(registeredUser).toStrictEqual(expectedRegisteredUser);
-    expect(mockUserRepository.verifyAvailableUsername).toBeCalledWith(useCasePayload.username);
-    expect(mockPasswordHasher.hash).toBeCalledWith(useCasePayload.password);
+    expect(actual).toStrictEqual(expected);
+    expect(mockUserRepository.verifyUsernameAvailability).toBeCalledWith(useCasePayload.username);
+    expect(mockHasher.hash).toBeCalledWith(useCasePayload.password);
     expect(mockUserRepository.registerUser).toBeCalledWith(new RegisterUser({
       username: useCasePayload.username,
-      password: 'encrypted_password',
+      password: 'hashed_password',
       fullname: useCasePayload.fullname,
     }));
   });

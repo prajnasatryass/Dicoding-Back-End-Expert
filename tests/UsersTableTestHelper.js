@@ -5,16 +5,16 @@ const tableName = 'users';
 
 const UsersTableTestHelper = {
   async addUser({
-    id = 'user-1', username = 'test_user', password = 'test', fullname = 'Test User',
+    id = 'user-1', username = 'test', password = 'secret', fullname = 'Test User',
   }) {
     const query = {
-      text: `INSERT INTO ${tableName} VALUES($1, $2, $3, $4, current_timestamp, NULL, NULL)`,
+      text: `INSERT INTO ${tableName} VALUES($1, $2, $3, $4, current_timestamp, NULL)`,
       values: [id, username, password, fullname],
     };
     await pool.query(query);
   },
 
-  async findUserById(id) {
+  async getUserById(id) {
     const query = {
       text: `SELECT * FROM ${tableName} WHERE id = $1`,
       values: [id],
@@ -24,7 +24,7 @@ const UsersTableTestHelper = {
   },
 
   async cleanTable() {
-    await pool.query(`DELETE FROM ${tableName}`);
+    await pool.query(`TRUNCATE TABLE ${tableName}`);
   },
 };
 

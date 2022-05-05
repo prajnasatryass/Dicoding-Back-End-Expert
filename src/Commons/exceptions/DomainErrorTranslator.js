@@ -6,18 +6,27 @@ const DomainErrorTranslator = {
   },
 };
 
-// TODO: UPDATE
+// TODO: ADD MISSING ERROR MESSAGES
 DomainErrorTranslator._directories = {
-  'REGISTER_USER.NOT_CONTAIN_NEEDED_PROPERTY': new InvariantError('tidak dapat membuat user baru karena properti yang dibutuhkan tidak ada'),
-  'REGISTER_USER.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError('tidak dapat membuat user baru karena tipe data tidak sesuai'),
-  'REGISTER_USER.USERNAME_LIMIT_CHAR': new InvariantError('tidak dapat membuat user baru karena karakter username melebihi batas limit'),
-  'REGISTER_USER.USERNAME_CONTAIN_RESTRICTED_CHARACTER': new InvariantError('tidak dapat membuat user baru karena username mengandung karakter terlarang'),
-  'USER_LOGIN.NOT_CONTAIN_NEEDED_PROPERTY': new InvariantError('harus mengirimkan username dan password'),
-  'USER_LOGIN.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError('username dan password harus string'),
-  'REFRESH_AUTHENTICATION_USE_CASE.NOT_CONTAIN_REFRESH_TOKEN': new InvariantError('harus mengirimkan token refresh'),
-  'REFRESH_AUTHENTICATION_USE_CASE.PAYLOAD_NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError('refresh token harus string'),
-  'DELETE_AUTHENTICATION_USE_CASE.NOT_CONTAIN_REFRESH_TOKEN': new InvariantError('harus mengirimkan token refresh'),
-  'DELETE_AUTHENTICATION_USE_CASE.PAYLOAD_NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError('refresh token harus string'),
+  'REGISTER_USER.MISSING_REQUIRED_PROPERTIES': new InvariantError('registrasi user gagal: Ada properti wajib yang tidak disediakan'),
+  'REGISTER_USER.DATA_TYPE_MISMATCH': new InvariantError('registrasi user gagal: Ada properti dengan tipe data yang tidak sesuai'),
+  'REGISTER_USER.USERNAME_TOO_LONG': new InvariantError('registrasi user gagal: Panjang username melebihi 50 karakter'),
+  'REGISTER_USER.USERNAME_NOT_ALPHANUMERIC': new InvariantError('registrasi user gagal: Username mengandung karakter non-alfanumerik'),
+
+  'REGISTERED_USER.MISSING_REQUIRED_PROPERTIES': new InvariantError('registrasi user gagal: Ada properti wajib yang tidak disediakan'),
+  'REGISTERED_USER.DATA_TYPE_MISMATCH': new InvariantError('registrasi user gagal: Ada properti dengan tipe data yang tidak sesuai'),
+
+  'NEW_AUTH.MISSING_REQUIRED_PROPERTIES': new InvariantError('login gagal: Ada properti wajib yang tidak disediakan'),
+  'NEW_AUTH.DATA_TYPE_MISMATCH': new InvariantError('login gagal: Ada properti dengan tipe data yang tidak sesuai'),
+
+  'USER_LOGIN.MISSING_REQUIRED_PROPERTIES': new InvariantError(),
+  'USER_LOGIN.DATA_TYPE_MISMATCH': new InvariantError(),
+
+  'AUTHENTICATION_USE_CASES.REFRESH.MISSING_REFRESH_TOKEN': new InvariantError(),
+  'AUTHENTICATION_USE_CASES.REFRESH.DATA_TYPE_MISMATCH': new InvariantError(),
+
+  'AUTHENTICATION_USE_CASES.LOGOUT.MISSING_REFRESH_TOKEN': new InvariantError(),
+  'AUTHENTICATION_USE_CASES.LOGOUT.DATA_TYPE_MISMATCH': new InvariantError(),
 };
 
 module.exports = DomainErrorTranslator;

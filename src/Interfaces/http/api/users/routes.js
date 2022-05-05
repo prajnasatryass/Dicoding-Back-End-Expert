@@ -1,11 +1,11 @@
 const { HttpMethods } = require('../../../../Commons/utils/constants');
 
-const baseRoute = '/users';
+const basePath = '/users';
 
 const routes = (handler) => ([
   {
     method: HttpMethods.POST,
-    path: baseRoute,
+    path: basePath,
     handler: handler.registerUserHandler,
   },
 ]);

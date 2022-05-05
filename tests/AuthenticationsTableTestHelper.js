@@ -1,9 +1,9 @@
 /* istanbul ignore file */
 const pool = require('../src/Infrastructures/database/postgres/pool');
 
-const tableName = 'auth_tokens';
+const tableName = 'authentications';
 
-const AuthTokensTableTestHelper = {
+const AuthenticationsTableTestHelper = {
   async addToken(token) {
     const query = {
       text: `INSERT INTO ${tableName} VALUES($1)`,
@@ -22,8 +22,8 @@ const AuthTokensTableTestHelper = {
   },
 
   async cleanTable() {
-    await pool.query(`DELETE FROM ${tableName}`);
+    await pool.query(`TRUNCATE TABLE ${tableName}`);
   },
 };
 
-module.exports = AuthTokensTableTestHelper;
+module.exports = AuthenticationsTableTestHelper;

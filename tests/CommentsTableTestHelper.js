@@ -14,6 +14,15 @@ const ThreadCommentsTableTestHelper = {
     await pool.query(query);
   },
 
+  async getThreadComments(id) {
+    const query = {
+      text: `SELECT * FROM ${tableName} WHERE thread_id = $1`,
+      values: [id],
+    };
+    const result = await pool.query(query);
+    return result.rows;
+  },
+
   async deleteComment({
     id = 'comment-1',
   }) {
@@ -24,17 +33,8 @@ const ThreadCommentsTableTestHelper = {
     await pool.query(query);
   },
 
-  async getThreadComments(id) {
-    const query = {
-      text: `SELECT * FROM ${tableName} WHERE thread_id = $1`,
-      values: [id],
-    };
-    const result = await pool.query(query);
-    return result.rows;
-  },
-
   async cleanTable() {
-    await pool.query(`DELETE FROM ${tableName}`);
+    await pool.query(`TRUNCATE TABLE ${tableName}`);
   },
 };
 

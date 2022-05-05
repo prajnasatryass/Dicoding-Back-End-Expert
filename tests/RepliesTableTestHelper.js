@@ -14,6 +14,15 @@ const RepliesTableTestHelper = {
     await pool.query(query);
   },
 
+  async getCommentReplies(id) {
+    const query = {
+      text: `SELECT * FROM ${tableName} WHERE comment_id = $1`,
+      values: [id],
+    };
+    const result = await pool.query(query);
+    return result.rows;
+  },
+
   async deleteReply({
     id = 'reply-1',
   }) {
@@ -24,17 +33,8 @@ const RepliesTableTestHelper = {
     await pool.query(query);
   },
 
-  async getCommentReplies(id) {
-    const query = {
-      text: `SELECT * FROM ${tableName} WHERE comment_id = $1`,
-      values: [id],
-    };
-    const result = await pool.query(query);
-    return result.rows;
-  },
-
   async cleanTable() {
-    await pool.query(`DELETE FROM ${tableName}`);
+    await pool.query(`TRUNCATE TABLE ${tableName}`);
   },
 };
 
