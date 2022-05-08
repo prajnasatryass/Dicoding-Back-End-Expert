@@ -5,19 +5,28 @@ const tableName = 'replies';
 
 const RepliesTableTestHelper = {
   async addReply({
-    id = 'reply-1', commentID = 'comment-1', content = 'test reply', ownerID = 'user-1',
+    id = 'reply-1', commentId = 'comment-1', content = 'Test reply', ownerId = 'user-1',
   }) {
     const query = {
       text: `INSERT INTO ${tableName} VALUES($1, $2, $3, $4, current_timestamp, NULL, NULL)`,
-      values: [id, commentID, content, ownerID],
+      values: [id, commentId, content, ownerId],
     };
     await pool.query(query);
   },
 
-  async getCommentReplies(id) {
+  async findReply(id) {
+    const query = {
+      text: `SELECT * FROM ${tableName} WHERE id = $1`,
+      values: [id],
+    };
+    const result = await pool.query(query);
+    return result.rows;
+  },
+
+  async findCommentReplies(commentId) {
     const query = {
       text: `SELECT * FROM ${tableName} WHERE comment_id = $1`,
-      values: [id],
+      values: [commentId],
     };
     const result = await pool.query(query);
     return result.rows;

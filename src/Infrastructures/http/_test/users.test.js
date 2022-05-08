@@ -18,7 +18,7 @@ describe('/users endpoint', () => {
   });
 
   describe('POST /users', () => {
-    it('should persist registered user entry and return 201 response', async () => {
+    it('should return 201 response and added user', async () => {
       const requestPayload = {
         username: 'John10',
         password: 'secret',

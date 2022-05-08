@@ -11,11 +11,11 @@ class RegisterUser {
 
   _verifyPayload({ username, password, fullname }) {
     if (!username || !password || !fullname) {
-      throw new Error('REGISTER_USER.MISSING_REQUIRED_PROPERTIES');
+      throw new Error('MISSING_REQUIRED_PROPERTIES');
     }
 
     if (typeof username !== 'string' || typeof password !== 'string' || typeof fullname !== 'string') {
-      throw new Error('REGISTER_USER.DATA_TYPE_MISMATCH');
+      throw new Error('DATA_TYPE_MISMATCH');
     }
 
     if (username.length > 50) {

@@ -48,19 +48,19 @@ class AuthenticationUseCases {
 
   _verifyRefreshPayload({ refreshToken }) {
     if (!refreshToken) {
-      throw new Error('AUTHENTICATION_USE_CASES.REFRESH.MISSING_REFRESH_TOKEN');
+      throw new Error('AUTHENTICATION.MISSING_REFRESH_TOKEN');
     }
     if (typeof refreshToken !== 'string') {
-      throw new Error('AUTHENTICATION_USE_CASES.REFRESH.DATA_TYPE_MISMATCH');
+      throw new Error('DATA_TYPE_MISMATCH');
     }
   }
 
   _verifyLogoutPayload({ refreshToken }) {
     if (!refreshToken) {
-      throw new Error('AUTHENTICATION_USE_CASES.LOGOUT.MISSING_REFRESH_TOKEN');
+      throw new Error('AUTHENTICATION.MISSING_REFRESH_TOKEN');
     }
     if (typeof refreshToken !== 'string') {
-      throw new Error('AUTHENTICATION_USE_CASES.LOGOUT.DATA_TYPE_MISMATCH');
+      throw new Error('DATA_TYPE_MISMATCH');
     }
   }
 }

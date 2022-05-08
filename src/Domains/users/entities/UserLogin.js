@@ -10,11 +10,11 @@ class UserLogin {
 
   _verifyPayload({ username, password }) {
     if (!username || !password) {
-      throw new Error('USER_LOGIN.MISSING_REQUIRED_PROPERTIES');
+      throw new Error('MISSING_REQUIRED_PROPERTIES');
     }
 
     if (typeof username !== 'string' || typeof password !== 'string') {
-      throw new Error('USER_LOGIN.DATA_TYPE_MISMATCH');
+      throw new Error('DATA_TYPE_MISMATCH');
     }
   }
 }

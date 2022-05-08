@@ -26,9 +26,9 @@ describe('AuthenticationUseCases', () => {
       mockHasher.match = jest.fn()
         .mockImplementation(() => Promise.resolve());
       mockTokenManager.createAccessToken = jest.fn()
-        .mockImplementation(() => Promise.resolve(expected.accessToken));
+        .mockImplementation(() => Promise.resolve('access_token'));
       mockTokenManager.createRefreshToken = jest.fn()
-        .mockImplementation(() => Promise.resolve(expected.refreshToken));
+        .mockImplementation(() => Promise.resolve('refresh_token'));
       mockUserRepository.getIdByUsername = jest.fn()
         .mockImplementation(() => Promise.resolve('user-1'));
       mockAuthenticationRepository.registerToken = jest.fn()
@@ -66,7 +66,7 @@ describe('AuthenticationUseCases', () => {
 
       await expect(authenticationUseCases.refresh(useCasePayload))
         .rejects
-        .toThrowError('AUTHENTICATION_USE_CASES.REFRESH.MISSING_REFRESH_TOKEN');
+        .toThrowError('AUTHENTICATION.MISSING_REFRESH_TOKEN');
     });
 
     it('should throw Error if refresh token data type is not string', async () => {
@@ -77,7 +77,7 @@ describe('AuthenticationUseCases', () => {
 
       await expect(authenticationUseCases.refresh(useCasePayload))
         .rejects
-        .toThrowError('AUTHENTICATION_USE_CASES.REFRESH.DATA_TYPE_MISMATCH');
+        .toThrowError('DATA_TYPE_MISMATCH');
     });
 
     it('should orchestrate refresh action correctly', async () => {
@@ -95,7 +95,7 @@ describe('AuthenticationUseCases', () => {
       mockTokenManager.decodePayload = jest.fn()
         .mockImplementation(() => Promise.resolve({ username: 'John10', id: 'user-1' }));
       mockTokenManager.createAccessToken = jest.fn()
-        .mockImplementation(() => Promise.resolve(expected));
+        .mockImplementation(() => Promise.resolve('access_token'));
 
       const authenticationUseCases = new AuthenticationUseCases({
         authenticationRepository: mockAuthenticationRepository,
@@ -123,7 +123,7 @@ describe('AuthenticationUseCases', () => {
 
       await expect(authenticationUseCases.logout(useCasePayload))
         .rejects
-        .toThrowError('AUTHENTICATION_USE_CASES.LOGOUT.MISSING_REFRESH_TOKEN');
+        .toThrowError('AUTHENTICATION.MISSING_REFRESH_TOKEN');
     });
 
     it('should throw Error if refresh token data type is not string', async () => {
@@ -134,7 +134,7 @@ describe('AuthenticationUseCases', () => {
 
       await expect(authenticationUseCases.logout(useCasePayload))
         .rejects
-        .toThrowError('AUTHENTICATION_USE_CASES.LOGOUT.DATA_TYPE_MISMATCH');
+        .toThrowError('DATA_TYPE_MISMATCH');
     });
 
     it('should orchestrate logout action correctly', async () => {

@@ -6,7 +6,7 @@ describe('UserLogin', () => {
       username: 'John10',
     };
 
-    expect(() => new UserLogin(payload)).toThrowError('USER_LOGIN.MISSING_REQUIRED_PROPERTIES');
+    expect(() => new UserLogin(payload)).toThrowError('MISSING_REQUIRED_PROPERTIES');
   });
 
   it('should throw Error if one or more payload properties does not match specified data type', () => {
@@ -15,7 +15,7 @@ describe('UserLogin', () => {
       password: {},
     };
 
-    expect(() => new UserLogin(payload)).toThrowError('USER_LOGIN.DATA_TYPE_MISMATCH');
+    expect(() => new UserLogin(payload)).toThrowError('DATA_TYPE_MISMATCH');
   });
 
   it('should create UserLogin correctly', () => {

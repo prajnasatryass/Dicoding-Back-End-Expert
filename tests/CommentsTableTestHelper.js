@@ -5,19 +5,28 @@ const tableName = 'comments';
 
 const ThreadCommentsTableTestHelper = {
   async addComment({
-    id = 'comment-1', threadID = 'thread-1', content = 'test comment', ownerID = 'user-1',
+    id = 'comment-1', threadId = 'thread-1', content = 'Test comment', ownerId = 'user-1',
   }) {
     const query = {
       text: `INSERT INTO ${tableName} VALUES($1, $2, $3, $4, current_timestamp, NULL, NULL)`,
-      values: [id, threadID, content, ownerID],
+      values: [id, threadId, content, ownerId],
     };
     await pool.query(query);
   },
 
-  async getThreadComments(id) {
+  async findComment(id) {
+    const query = {
+      text: `SELECT * FROM ${tableName} WHERE id = $1`,
+      values: [id],
+    };
+    const result = await pool.query(query);
+    return result.rows;
+  },
+
+  async findThreadComments(threadId) {
     const query = {
       text: `SELECT * FROM ${tableName} WHERE thread_id = $1`,
-      values: [id],
+      values: [threadId],
     };
     const result = await pool.query(query);
     return result.rows;

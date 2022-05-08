@@ -7,7 +7,7 @@ describe('RegisterUser', () => {
       password: 'secret',
     };
 
-    expect(() => new RegisterUser(payload)).toThrowError('REGISTER_USER.MISSING_REQUIRED_PROPERTIES');
+    expect(() => new RegisterUser(payload)).toThrowError('MISSING_REQUIRED_PROPERTIES');
   });
 
   it('should throw Error if one or more payload properties does not match specified data type', () => {
@@ -17,7 +17,7 @@ describe('RegisterUser', () => {
       fullname: ['John Doe'],
     };
 
-    expect(() => new RegisterUser(payload)).toThrowError('REGISTER_USER.DATA_TYPE_MISMATCH');
+    expect(() => new RegisterUser(payload)).toThrowError('DATA_TYPE_MISMATCH');
   });
 
   it('should throw Error if username length exceeds 50 characters', () => {

@@ -1,9 +1,11 @@
 const Hapi = require('@hapi/hapi');
+const Jwt = require('@hapi/jwt');
 const { StatusCodes, getReasonPhrase } = require('http-status-codes');
 const ClientError = require('../../Commons/exceptions/ClientError');
 const DomainErrorTranslator = require('../../Commons/exceptions/DomainErrorTranslator');
 const users = require('../../Interfaces/http/api/users');
 const authentications = require('../../Interfaces/http/api/authentications');
+const threads = require('../../Interfaces/http/api/threads');
 
 const createServer = async (container) => {
   const server = Hapi.server({
@@ -13,11 +15,38 @@ const createServer = async (container) => {
 
   await server.register([
     {
+      plugin: Jwt,
+    },
+  ]);
+
+  server.auth.strategy(process.env.APP_AUTH_STRATEGY_NAME, 'jwt', {
+    keys: process.env.ACCESS_TOKEN_KEY,
+    verify: {
+      aud: false,
+      iss: false,
+      sub: false,
+      maxAgeSec: process.env.ACCESS_TOKEN_AGE,
+    },
+    validate: (artifacts) => ({
+      isValid: true,
+      credentials: {
+        id: artifacts.decoded.payload.id,
+        username: artifacts.decoded.payload.username,
+      },
+    }),
+  });
+
+  await server.register([
+    {
       plugin: users,
       options: { container },
     },
     {
       plugin: authentications,
+      options: { container },
+    },
+    {
+      plugin: threads,
       options: { container },
     },
   ]);
@@ -49,7 +78,11 @@ const createServer = async (container) => {
   });
 
   server.events.on('response', (request) => {
-    console.log(`\n${new Date().toISOString()}\n${request.info.remoteAddress}: ${request.method.toUpperCase()} ${request.url.pathname}${request.url.search} - ${request.response.statusCode} ${getReasonPhrase(request.response.statusCode)}`);
+    console.log(`
+    ${new Date().toISOString()}
+    ${request.info.remoteAddress}: ${request.method.toUpperCase()} ${request.url.pathname}${request.url.search} - ${request.response.statusCode} ${getReasonPhrase(request.response.statusCode)}
+    ${JSON.stringify(request.response.source)}
+    `);
   });
 
   return server;

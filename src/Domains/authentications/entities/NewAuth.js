@@ -10,11 +10,11 @@ class NewAuth {
 
   _verifyPayload({ accessToken, refreshToken }) {
     if (!accessToken || !refreshToken) {
-      throw new Error('NEW_AUTH.MISSING_REQUIRED_PROPERTIES');
+      throw new Error('MISSING_REQUIRED_PROPERTIES');
     }
 
     if (typeof accessToken !== 'string' || typeof refreshToken !== 'string') {
-      throw new Error('NEW_AUTH.DATA_TYPE_MISMATCH');
+      throw new Error('DATA_TYPE_MISMATCH');
     }
   }
 }

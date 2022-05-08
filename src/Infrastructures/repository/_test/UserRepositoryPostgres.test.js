@@ -19,14 +19,14 @@ describe('UserRepositoryPostgres', () => {
   });
 
   describe('verifyUsernameAvailability', () => {
-    it('should throw InvariantError if username is empty', async () => {
+    it('should throw InvariantError if username is not available', async () => {
       await UsersTableTestHelper.addUser({ username: 'test' });
       const userRepositoryPostgres = new UserRepositoryPostgres(pool, {});
 
       await expect(userRepositoryPostgres.verifyUsernameAvailability('test')).rejects.toThrowError(InvariantError);
     });
 
-    it('should not throw InvariantError if username is not empty', async () => {
+    it('should not throw InvariantError if username is available', async () => {
       const userRepositoryPostgres = new UserRepositoryPostgres(pool, {});
 
       await expect(userRepositoryPostgres.verifyUsernameAvailability('test')).resolves.not.toThrowError(InvariantError);
@@ -34,7 +34,7 @@ describe('UserRepositoryPostgres', () => {
   });
 
   describe('registerUser', () => {
-    it('should persist registered user entry', async () => {
+    it('should persist user entry', async () => {
       const registerUser = new RegisterUser({
         username: 'John10',
         password: 'hashed_password',
@@ -45,8 +45,8 @@ describe('UserRepositoryPostgres', () => {
 
       await userRepositoryPostgres.registerUser(registerUser);
 
-      const users = await UsersTableTestHelper.getUserById('user-1');
-      expect(users).toHaveLength(1);
+      const user = await UsersTableTestHelper.findUser('user-1');
+      expect(user).toHaveLength(1);
     });
 
     it('should return registered user', async () => {
@@ -90,7 +90,6 @@ describe('UserRepositoryPostgres', () => {
     });
   });
 
-  // TODO: REVISE
   describe('getIdByUsername', () => {
     it('should throw InvariantError if user is not found', async () => {
       const userRepositoryPostgres = new UserRepositoryPostgres(pool, {});
@@ -100,7 +99,7 @@ describe('UserRepositoryPostgres', () => {
         .toThrowError(InvariantError);
     });
 
-    it('should return user\'s id if user is found', async () => {
+    it('should return user\'s ID if user is found', async () => {
       await UsersTableTestHelper.addUser({ id: 'user-1', username: 'John10' });
       const userRepositoryPostgres = new UserRepositoryPostgres(pool, {});
 

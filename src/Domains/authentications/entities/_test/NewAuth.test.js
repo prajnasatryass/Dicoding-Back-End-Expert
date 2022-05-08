@@ -6,7 +6,7 @@ describe('NewAuth', () => {
       accessToken: 'access_token',
     };
 
-    expect(() => new NewAuth(payload)).toThrowError('NEW_AUTH.MISSING_REQUIRED_PROPERTIES');
+    expect(() => new NewAuth(payload)).toThrowError('MISSING_REQUIRED_PROPERTIES');
   });
 
   it('should throw Error if one or more payload properties does not match specified data type', () => {
@@ -15,7 +15,7 @@ describe('NewAuth', () => {
       refreshToken: {},
     };
 
-    expect(() => new NewAuth(payload)).toThrowError('NEW_AUTH.DATA_TYPE_MISMATCH');
+    expect(() => new NewAuth(payload)).toThrowError('DATA_TYPE_MISMATCH');
   });
 
   it('should create NewAuth correctly', () => {

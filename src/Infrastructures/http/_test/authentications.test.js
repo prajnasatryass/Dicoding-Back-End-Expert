@@ -38,7 +38,6 @@ describe('/authentications endpoint', () => {
           fullname: 'John Doe',
         },
       });
-      //   UsersTableTestHelper.addUser({ username: 'John10', password: 'secret' });
 
       const response = await server.inject({
         method: HttpMethods.POST,
@@ -88,7 +87,6 @@ describe('/authentications endpoint', () => {
           fullname: 'John Doe',
         },
       });
-      //   UsersTableTestHelper.addUser({ username: 'John10', password: 'secret' });
 
       const response = await server.inject({
         method: HttpMethods.POST,
@@ -153,7 +151,6 @@ describe('/authentications endpoint', () => {
           fullname: 'John Doe',
         },
       });
-    //   UsersTableTestHelper.addUser({ username: 'John10', password: 'secret' });
 
       const loginResponse = await server.inject({
         method: HttpMethods.POST,

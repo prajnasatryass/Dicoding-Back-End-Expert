@@ -1,3 +1,4 @@
+/* eslint-disable quote-props */
 const InvariantError = require('./InvariantError');
 
 const DomainErrorTranslator = {
@@ -6,27 +7,16 @@ const DomainErrorTranslator = {
   },
 };
 
-// TODO: ADD MISSING ERROR MESSAGES
 DomainErrorTranslator._directories = {
-  'REGISTER_USER.MISSING_REQUIRED_PROPERTIES': new InvariantError('registrasi user gagal: Ada properti wajib yang tidak disediakan'),
-  'REGISTER_USER.DATA_TYPE_MISMATCH': new InvariantError('registrasi user gagal: Ada properti dengan tipe data yang tidak sesuai'),
-  'REGISTER_USER.USERNAME_TOO_LONG': new InvariantError('registrasi user gagal: Panjang username melebihi 50 karakter'),
-  'REGISTER_USER.USERNAME_NOT_ALPHANUMERIC': new InvariantError('registrasi user gagal: Username mengandung karakter non-alfanumerik'),
+  'MISSING_REQUIRED_PROPERTIES': new InvariantError('ada properti wajib yang tidak disediakan'),
+  'DATA_TYPE_MISMATCH': new InvariantError('ada properti dengan tipe data yang tidak sesuai'),
 
-  'REGISTERED_USER.MISSING_REQUIRED_PROPERTIES': new InvariantError('registrasi user gagal: Ada properti wajib yang tidak disediakan'),
-  'REGISTERED_USER.DATA_TYPE_MISMATCH': new InvariantError('registrasi user gagal: Ada properti dengan tipe data yang tidak sesuai'),
+  'REGISTER_USER.USERNAME_TOO_LONG': new InvariantError('panjang username melebihi 50 karakter'),
+  'REGISTER_USER.USERNAME_NOT_ALPHANUMERIC': new InvariantError('tidak dapat membuat user baru karena username mengandung karakter terlarang'),
 
-  'NEW_AUTH.MISSING_REQUIRED_PROPERTIES': new InvariantError('login gagal: Ada properti wajib yang tidak disediakan'),
-  'NEW_AUTH.DATA_TYPE_MISMATCH': new InvariantError('login gagal: Ada properti dengan tipe data yang tidak sesuai'),
+  'AUTHENTICATION.MISSING_REFRESH_TOKEN': new InvariantError('refresh token tidak disediakan'),
 
-  'USER_LOGIN.MISSING_REQUIRED_PROPERTIES': new InvariantError(),
-  'USER_LOGIN.DATA_TYPE_MISMATCH': new InvariantError(),
-
-  'AUTHENTICATION_USE_CASES.REFRESH.MISSING_REFRESH_TOKEN': new InvariantError(),
-  'AUTHENTICATION_USE_CASES.REFRESH.DATA_TYPE_MISMATCH': new InvariantError(),
-
-  'AUTHENTICATION_USE_CASES.LOGOUT.MISSING_REFRESH_TOKEN': new InvariantError(),
-  'AUTHENTICATION_USE_CASES.LOGOUT.DATA_TYPE_MISMATCH': new InvariantError(),
+  'THREAD.MISSING_THREAD_ID': new InvariantError('thread ID tidak disediakan'),
 };
 
 module.exports = DomainErrorTranslator;

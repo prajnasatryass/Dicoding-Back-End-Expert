@@ -7,7 +7,7 @@ describe('RegisteredUser', () => {
       username: 'John10',
     };
 
-    expect(() => new RegisteredUser(payload)).toThrowError('REGISTERED_USER.MISSING_REQUIRED_PROPERTIES');
+    expect(() => new RegisteredUser(payload)).toThrowError('MISSING_REQUIRED_PROPERTIES');
   });
 
   it('should throw Error if one or more payload properties does not match specified data type', () => {
@@ -17,7 +17,7 @@ describe('RegisteredUser', () => {
       fullname: {},
     };
 
-    expect(() => new RegisteredUser(payload)).toThrowError('REGISTERED_USER.DATA_TYPE_MISMATCH');
+    expect(() => new RegisteredUser(payload)).toThrowError('DATA_TYPE_MISMATCH');
   });
 
   it('should create RegisteredUser correctly', () => {
