@@ -22,10 +22,25 @@ class ThreadUseCases {
     await Promise.all(thread.comments.map(
       async ({ id }) => this._replyRepository.getCommentReplies(id),
     )).then((replies) => {
-      thread.comments.forEach(async (_, index) => {
+      thread.comments.forEach((_, index) => {
         thread.comments[index].replies = replies[index];
       });
     });
+
+    thread.comments.forEach((cElement, cIndex) => {
+      if (cElement.deleted) {
+        thread.comments[cIndex].content = '**komentar telah dihapus**';
+      }
+      delete thread.comments[cIndex].deleted;
+
+      thread.comments[cIndex].replies.forEach((rElement, rIndex) => {
+        if (rElement.deleted) {
+          thread.comments[cIndex].replies[rIndex].content = '**balasan telah dihapus**';
+        }
+        delete thread.comments[cIndex].replies[rIndex].deleted;
+      });
+    });
+
     return thread;
   }
 

@@ -13,6 +13,7 @@
     "rules": {
         "no-console": "warn",
         "no-underscore-dangle": "off",
+        "no-param-reassign": "warn",
         "no-undef": 1
     }
 }

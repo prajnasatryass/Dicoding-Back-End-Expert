@@ -91,7 +91,7 @@ describe('ReplyRepositoryPostgres', () => {
       await expect(replyRepositoryPostgres.deleteReply('reply-1')).rejects.toThrowError(NotFoundError);
     });
 
-    it('should delete comment correctly', async () => {
+    it('should delete reply correctly', async () => {
       const userId = 'user-1';
       const commentId = 'comment-1';
       const replyId = 'reply-1';
@@ -105,7 +105,7 @@ describe('ReplyRepositoryPostgres', () => {
 
       expect(replies).toHaveLength(1);
       expect(replies[0].id).toStrictEqual(replyId);
-      expect(replies[0].content).toStrictEqual('**balasan telah dihapus**');
+      expect(replies[0].deleted).toStrictEqual(true);
     });
   });
 
@@ -131,14 +131,14 @@ describe('ReplyRepositoryPostgres', () => {
       await expect(replyRepositoryPostgres.verifyReplyOwnership('user-1', 'reply-1')).rejects.toThrowError(NotFoundError);
     });
 
-    it('should throw AuthorizationError if comment is not owned by user', async () => {
+    it('should throw AuthorizationError if reply is not owned by user', async () => {
       await RepliesTableTestHelper.addReply({ id: 'reply-1', ownerId: 'user-2' });
       const replyRepositoryPostgres = new ReplyRepositoryPostgres(pool, {});
 
       await expect(replyRepositoryPostgres.verifyReplyOwnership('user-1', 'reply-1')).rejects.toThrowError(AuthorizationError);
     });
 
-    it('should not throw AuthorizationError if comment is owned by user', async () => {
+    it('should not throw AuthorizationError if reply is owned by user', async () => {
       await RepliesTableTestHelper.addReply({ id: 'reply-1', ownerId: 'user-1' });
       const replyRepositoryPostgres = new ReplyRepositoryPostgres(pool, {});
 

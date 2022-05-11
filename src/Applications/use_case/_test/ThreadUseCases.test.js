@@ -76,12 +76,12 @@ describe('ThreadUseCases', () => {
           id: 'comment-1',
           username: 'John10',
           date: '2022-01-01T00:00:00.000Z',
-          content: 'Content',
+          content: '**komentar telah dihapus**',
           replies: [{
             id: 'reply-1',
             username: 'John10',
             date: '2022-01-01T00:00:00.000Z',
-            content: 'Content',
+            content: '**balasan telah dihapus**',
           }],
         }],
       };
@@ -105,6 +105,7 @@ describe('ThreadUseCases', () => {
             username: 'John10',
             date: '2022-01-01T00:00:00.000Z',
             content: 'Content',
+            deleted: true,
           },
         ]));
       mockReplyRepository.getCommentReplies = jest.fn()
@@ -114,6 +115,7 @@ describe('ThreadUseCases', () => {
             username: 'John10',
             date: '2022-01-01T00:00:00.000Z',
             content: 'Content',
+            deleted: true,
           },
         ]));
 
