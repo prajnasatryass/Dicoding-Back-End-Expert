@@ -102,7 +102,7 @@ describe('CommentRepositoryPostgres', () => {
 
       expect(comments).toHaveLength(1);
       expect(comments[0].id).toStrictEqual(commentId);
-      expect(comments[0].deleted).toStrictEqual(true);
+      expect(comments[0].deleted_at).toBeDefined();
     });
   });
 

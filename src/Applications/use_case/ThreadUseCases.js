@@ -28,16 +28,16 @@ class ThreadUseCases {
     });
 
     thread.comments.forEach((cElement, cIndex) => {
-      if (cElement.deleted) {
+      if (cElement.deleted_at) {
         thread.comments[cIndex].content = '**komentar telah dihapus**';
       }
-      delete thread.comments[cIndex].deleted;
+      delete thread.comments[cIndex].deleted_at;
 
       thread.comments[cIndex].replies.forEach((rElement, rIndex) => {
-        if (rElement.deleted) {
+        if (rElement.deleted_at) {
           thread.comments[cIndex].replies[rIndex].content = '**balasan telah dihapus**';
         }
-        delete thread.comments[cIndex].replies[rIndex].deleted;
+        delete thread.comments[cIndex].replies[rIndex].deleted_at;
       });
     });
 

@@ -21,7 +21,7 @@ class ReplyRepositoryPostgres extends ReplyRepository {
 
   async getCommentReplies(commentId) {
     const query = {
-      text: 'SELECT a.id, b.username, a.inserted_at AS date, a.content, (CASE WHEN a.deleted_at IS NULL THEN FALSE ELSE TRUE END) AS deleted FROM replies a JOIN users b ON a.owner_id = b.id WHERE a.comment_id = $1 ORDER BY a.inserted_at ASC',
+      text: 'SELECT a.id, b.username, a.inserted_at AS date, a.content, a.deleted_at FROM replies a JOIN users b ON a.owner_id = b.id WHERE a.comment_id = $1 ORDER BY a.inserted_at ASC',
       values: [commentId],
     };
     const result = await this._pool.query(query);

@@ -105,7 +105,7 @@ describe('ReplyRepositoryPostgres', () => {
 
       expect(replies).toHaveLength(1);
       expect(replies[0].id).toStrictEqual(replyId);
-      expect(replies[0].deleted).toStrictEqual(true);
+      expect(replies[0].deleted_at).toBeDefined();
     });
   });
 

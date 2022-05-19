@@ -117,14 +117,14 @@ describe('ThreadUseCases', () => {
             username: 'John10',
             date: '2022-01-01T00:00:00.000Z',
             content: 'Content',
-            deleted: true,
+            deleted_at: '2022-01-01T00:00:00.000Z',
           },
           {
             id: 'comment-2',
             username: 'John10',
             date: '2022-01-01T00:00:00.000Z',
             content: 'Content',
-            deleted: false,
+            deleted_at: null,
           },
         ]));
       mockReplyRepository.getCommentReplies = jest.fn()
@@ -134,7 +134,7 @@ describe('ThreadUseCases', () => {
             username: 'John10',
             date: '2022-01-01T00:00:00.000Z',
             content: 'Content',
-            deleted: false,
+            deleted_at: null,
           },
         ])).mockImplementationOnce(() => Promise.resolve([
           {
@@ -142,7 +142,7 @@ describe('ThreadUseCases', () => {
             username: 'John10',
             date: '2022-01-01T00:00:00.000Z',
             content: 'Content',
-            deleted: true,
+            deleted_at: '2022-01-01T00:00:00.000Z',
           },
         ]));
 
