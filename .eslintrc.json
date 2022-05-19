@@ -11,9 +11,11 @@
         "ecmaVersion": "latest"
     },
     "rules": {
-        "no-console": "warn",
+        "no-console": "off",
+        "class-methods-use-this": "off",
+        "no-unused-vars": "off",
         "no-underscore-dangle": "off",
         "no-param-reassign": "warn",
-        "no-undef": 1
+        "no-undef": "off"
     }
 }

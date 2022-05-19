@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 const { PgTypes } = require('../src/Commons/utils/constants');
 
 const tableName = 'threads';
@@ -28,10 +27,12 @@ exports.up = (pgm) => {
     updated_at: {
       type: PgTypes.TIMESTAMP,
       notNull: false,
+      default: null,
     },
     deleted_at: {
       type: PgTypes.TIMESTAMP,
       notNull: false,
+      default: null,
     },
   });
 };

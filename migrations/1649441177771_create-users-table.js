@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 const { PgTypes } = require('../src/Commons/utils/constants');
 
 const tableName = 'users';
@@ -29,6 +28,7 @@ exports.up = (pgm) => {
     updated_at: {
       type: PgTypes.TIMESTAMP,
       notNull: false,
+      default: null,
     },
   });
 };
