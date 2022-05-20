@@ -46,8 +46,8 @@ describe('/authentications endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(201);
-      expect(responsePayload.status).toEqual('success');
+      expect(response.statusCode).toStrictEqual(201);
+      expect(responsePayload.status).toStrictEqual('success');
       expect(responsePayload.data.accessToken).toBeDefined();
       expect(responsePayload.data.refreshToken).toBeDefined();
     });
@@ -66,8 +66,8 @@ describe('/authentications endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(400);
-      expect(responsePayload.status).toEqual('fail');
+      expect(response.statusCode).toStrictEqual(400);
+      expect(responsePayload.status).toStrictEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });
 
@@ -95,8 +95,8 @@ describe('/authentications endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(401);
-      expect(responsePayload.status).toEqual('fail');
+      expect(response.statusCode).toStrictEqual(401);
+      expect(responsePayload.status).toStrictEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });
 
@@ -113,8 +113,8 @@ describe('/authentications endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(400);
-      expect(responsePayload.status).toEqual('fail');
+      expect(response.statusCode).toStrictEqual(400);
+      expect(responsePayload.status).toStrictEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });
 
@@ -132,8 +132,8 @@ describe('/authentications endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(400);
-      expect(responsePayload.status).toEqual('fail');
+      expect(response.statusCode).toStrictEqual(400);
+      expect(responsePayload.status).toStrictEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });
   });
@@ -171,8 +171,8 @@ describe('/authentications endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(200);
-      expect(responsePayload.status).toEqual('success');
+      expect(response.statusCode).toStrictEqual(200);
+      expect(responsePayload.status).toStrictEqual('success');
       expect(responsePayload.data.accessToken).toBeDefined();
     });
 
@@ -186,8 +186,8 @@ describe('/authentications endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(400);
-      expect(responsePayload.status).toEqual('fail');
+      expect(response.statusCode).toStrictEqual(400);
+      expect(responsePayload.status).toStrictEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });
 
@@ -203,8 +203,8 @@ describe('/authentications endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(400);
-      expect(responsePayload.status).toEqual('fail');
+      expect(response.statusCode).toStrictEqual(400);
+      expect(responsePayload.status).toStrictEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });
 
@@ -220,8 +220,8 @@ describe('/authentications endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(400);
-      expect(responsePayload.status).toEqual('fail');
+      expect(response.statusCode).toStrictEqual(400);
+      expect(responsePayload.status).toStrictEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });
 
@@ -238,8 +238,8 @@ describe('/authentications endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(400);
-      expect(responsePayload.status).toEqual('fail');
+      expect(response.statusCode).toStrictEqual(400);
+      expect(responsePayload.status).toStrictEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });
   });
@@ -259,8 +259,8 @@ describe('/authentications endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(200);
-      expect(responsePayload.status).toEqual('success');
+      expect(response.statusCode).toStrictEqual(200);
+      expect(responsePayload.status).toStrictEqual('success');
     });
 
     it('should return 400 response if payload does not contain refresh token', async () => {
@@ -273,8 +273,8 @@ describe('/authentications endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(400);
-      expect(responsePayload.status).toEqual('fail');
+      expect(response.statusCode).toStrictEqual(400);
+      expect(responsePayload.status).toStrictEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });
 
@@ -290,8 +290,8 @@ describe('/authentications endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(400);
-      expect(responsePayload.status).toEqual('fail');
+      expect(response.statusCode).toStrictEqual(400);
+      expect(responsePayload.status).toStrictEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });
   });

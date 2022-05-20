@@ -10,8 +10,8 @@ describe('BcryptHasher', () => {
 
       const hashedPassword = await bcryptHasher.hash('plain_password');
 
-      expect(typeof hashedPassword).toEqual('string');
-      expect(hashedPassword).not.toEqual('plain_password');
+      expect(typeof hashedPassword).toStrictEqual('string');
+      expect(hashedPassword).not.toStrictEqual('plain_password');
       expect(spyHash).toBeCalledWith('plain_password', 10);
     });
   });

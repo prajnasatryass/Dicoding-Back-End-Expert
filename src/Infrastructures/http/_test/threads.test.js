@@ -69,8 +69,8 @@ describe('/threads endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(201);
-      expect(responsePayload.status).toEqual('success');
+      expect(response.statusCode).toStrictEqual(201);
+      expect(responsePayload.status).toStrictEqual('success');
       expect(responsePayload.data.addedThread).toBeDefined();
     });
 
@@ -84,7 +84,7 @@ describe('/threads endpoint', () => {
         payload: requestPayload,
       });
 
-      expect(response.statusCode).toEqual(401);
+      expect(response.statusCode).toStrictEqual(401);
     });
 
     it('should return 400 response if payload is missing one or more required properties', async () => {
@@ -103,8 +103,8 @@ describe('/threads endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(400);
-      expect(responsePayload.status).toEqual('fail');
+      expect(response.statusCode).toStrictEqual(400);
+      expect(responsePayload.status).toStrictEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });
 
@@ -125,8 +125,8 @@ describe('/threads endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(400);
-      expect(responsePayload.status).toEqual('fail');
+      expect(response.statusCode).toStrictEqual(400);
+      expect(responsePayload.status).toStrictEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });
   });
@@ -150,8 +150,8 @@ describe('/threads endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(200);
-      expect(responsePayload.status).toEqual('success');
+      expect(response.statusCode).toStrictEqual(200);
+      expect(responsePayload.status).toStrictEqual('success');
       expect(responsePayload.data.thread).toBeDefined();
     });
 
@@ -165,8 +165,8 @@ describe('/threads endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(404);
-      expect(responsePayload.status).toEqual('fail');
+      expect(response.statusCode).toStrictEqual(404);
+      expect(responsePayload.status).toStrictEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });
   });
@@ -191,8 +191,8 @@ describe('/threads endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(201);
-      expect(responsePayload.status).toEqual('success');
+      expect(response.statusCode).toStrictEqual(201);
+      expect(responsePayload.status).toStrictEqual('success');
       expect(responsePayload.data.addedComment).toBeDefined();
     });
 
@@ -206,7 +206,7 @@ describe('/threads endpoint', () => {
         payload: requestPayload,
       });
 
-      expect(response.statusCode).toEqual(401);
+      expect(response.statusCode).toStrictEqual(401);
     });
 
     it('should return 400 response if payload is missing one or more required properties', async () => {
@@ -224,8 +224,8 @@ describe('/threads endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(400);
-      expect(responsePayload.status).toEqual('fail');
+      expect(response.statusCode).toStrictEqual(400);
+      expect(responsePayload.status).toStrictEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });
 
@@ -246,8 +246,8 @@ describe('/threads endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(400);
-      expect(responsePayload.status).toEqual('fail');
+      expect(response.statusCode).toStrictEqual(400);
+      expect(responsePayload.status).toStrictEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });
 
@@ -268,8 +268,8 @@ describe('/threads endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(404);
-      expect(responsePayload.status).toEqual('fail');
+      expect(response.statusCode).toStrictEqual(404);
+      expect(responsePayload.status).toStrictEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });
   });
@@ -303,8 +303,8 @@ describe('/threads endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(200);
-      expect(responsePayload.status).toEqual('success');
+      expect(response.statusCode).toStrictEqual(200);
+      expect(responsePayload.status).toStrictEqual('success');
     });
 
     it('should return 401 response if request does not have authorization header', async () => {
@@ -315,7 +315,7 @@ describe('/threads endpoint', () => {
         url: '/threads/thread-1/comments/comment-1',
       });
 
-      expect(response.statusCode).toEqual(401);
+      expect(response.statusCode).toStrictEqual(401);
     });
 
     it('should return 404 response if thread does not exist', async () => {
@@ -332,8 +332,8 @@ describe('/threads endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(404);
-      expect(responsePayload.status).toEqual('fail');
+      expect(response.statusCode).toStrictEqual(404);
+      expect(responsePayload.status).toStrictEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });
 
@@ -353,8 +353,8 @@ describe('/threads endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(404);
-      expect(responsePayload.status).toEqual('fail');
+      expect(response.statusCode).toStrictEqual(404);
+      expect(responsePayload.status).toStrictEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });
 
@@ -375,8 +375,8 @@ describe('/threads endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(403);
-      expect(responsePayload.status).toEqual('fail');
+      expect(response.statusCode).toStrictEqual(403);
+      expect(responsePayload.status).toStrictEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });
   });
@@ -403,8 +403,8 @@ describe('/threads endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(201);
-      expect(responsePayload.status).toEqual('success');
+      expect(response.statusCode).toStrictEqual(201);
+      expect(responsePayload.status).toStrictEqual('success');
       expect(responsePayload.data.addedReply).toBeDefined();
     });
 
@@ -418,7 +418,7 @@ describe('/threads endpoint', () => {
         payload: requestPayload,
       });
 
-      expect(response.statusCode).toEqual(401);
+      expect(response.statusCode).toStrictEqual(401);
     });
 
     it('should return 400 response if payload is missing one or more required properties', async () => {
@@ -437,8 +437,8 @@ describe('/threads endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(400);
-      expect(responsePayload.status).toEqual('fail');
+      expect(response.statusCode).toStrictEqual(400);
+      expect(responsePayload.status).toStrictEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });
 
@@ -460,8 +460,8 @@ describe('/threads endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(400);
-      expect(responsePayload.status).toEqual('fail');
+      expect(response.statusCode).toStrictEqual(400);
+      expect(responsePayload.status).toStrictEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });
 
@@ -483,8 +483,8 @@ describe('/threads endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(404);
-      expect(responsePayload.status).toEqual('fail');
+      expect(response.statusCode).toStrictEqual(404);
+      expect(responsePayload.status).toStrictEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });
 
@@ -508,8 +508,8 @@ describe('/threads endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(404);
-      expect(responsePayload.status).toEqual('fail');
+      expect(response.statusCode).toStrictEqual(404);
+      expect(responsePayload.status).toStrictEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });
   });
@@ -545,8 +545,8 @@ describe('/threads endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(200);
-      expect(responsePayload.status).toEqual('success');
+      expect(response.statusCode).toStrictEqual(200);
+      expect(responsePayload.status).toStrictEqual('success');
     });
 
     it('should return 401 response if request does not have authorization header', async () => {
@@ -557,7 +557,7 @@ describe('/threads endpoint', () => {
         url: '/threads/thread-1/comments/comment-1/replies/reply-1',
       });
 
-      expect(response.statusCode).toEqual(401);
+      expect(response.statusCode).toStrictEqual(401);
     });
 
     it('should return 404 response if thread does not exist', async () => {
@@ -575,8 +575,8 @@ describe('/threads endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(404);
-      expect(responsePayload.status).toEqual('fail');
+      expect(response.statusCode).toStrictEqual(404);
+      expect(responsePayload.status).toStrictEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });
 
@@ -597,8 +597,8 @@ describe('/threads endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(404);
-      expect(responsePayload.status).toEqual('fail');
+      expect(response.statusCode).toStrictEqual(404);
+      expect(responsePayload.status).toStrictEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });
 
@@ -620,8 +620,8 @@ describe('/threads endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(404);
-      expect(responsePayload.status).toEqual('fail');
+      expect(response.statusCode).toStrictEqual(404);
+      expect(responsePayload.status).toStrictEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });
 
@@ -644,8 +644,8 @@ describe('/threads endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(403);
-      expect(responsePayload.status).toEqual('fail');
+      expect(response.statusCode).toStrictEqual(403);
+      expect(responsePayload.status).toStrictEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });
   });
@@ -668,8 +668,8 @@ describe('/threads endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(200);
-      expect(responsePayload.status).toEqual('success');
+      expect(response.statusCode).toStrictEqual(200);
+      expect(responsePayload.status).toStrictEqual('success');
     });
 
     it('should return 200 response if unliking comment is successful', async () => {
@@ -697,8 +697,8 @@ describe('/threads endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(200);
-      expect(responsePayload.status).toEqual('success');
+      expect(response.statusCode).toStrictEqual(200);
+      expect(responsePayload.status).toStrictEqual('success');
     });
 
     it('should return 401 response if request does not have authorization header', async () => {
@@ -709,7 +709,7 @@ describe('/threads endpoint', () => {
         url: '/threads/thread-1/comments/comment-1/likes',
       });
 
-      expect(response.statusCode).toEqual(401);
+      expect(response.statusCode).toStrictEqual(401);
     });
 
     it('should return 404 response if thread does not exist', async () => {
@@ -726,8 +726,8 @@ describe('/threads endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(404);
-      expect(responsePayload.status).toEqual('fail');
+      expect(response.statusCode).toStrictEqual(404);
+      expect(responsePayload.status).toStrictEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });
 
@@ -747,8 +747,8 @@ describe('/threads endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(404);
-      expect(responsePayload.status).toEqual('fail');
+      expect(response.statusCode).toStrictEqual(404);
+      expect(responsePayload.status).toStrictEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });
   });

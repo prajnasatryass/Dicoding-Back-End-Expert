@@ -27,7 +27,7 @@ describe('NewThread', () => {
     const newThread = new NewThread(payload);
 
     expect(newThread).toBeInstanceOf(NewThread);
-    expect(newThread.title).toEqual(payload.title);
-    expect(newThread.body).toEqual(payload.body);
+    expect(newThread.title).toStrictEqual(payload.title);
+    expect(newThread.body).toStrictEqual(payload.body);
   });
 });

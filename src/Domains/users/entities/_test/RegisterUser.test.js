@@ -50,8 +50,8 @@ describe('RegisterUser', () => {
     const registerUser = new RegisterUser(payload);
 
     expect(registerUser).toBeInstanceOf(RegisterUser);
-    expect(registerUser.username).toEqual(payload.username);
-    expect(registerUser.password).toEqual(payload.password);
-    expect(registerUser.fullname).toEqual(payload.fullname);
+    expect(registerUser.username).toStrictEqual(payload.username);
+    expect(registerUser.password).toStrictEqual(payload.password);
+    expect(registerUser.fullname).toStrictEqual(payload.fullname);
   });
 });

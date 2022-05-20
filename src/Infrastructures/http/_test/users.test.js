@@ -33,8 +33,8 @@ describe('/users endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(201);
-      expect(responsePayload.status).toEqual('success');
+      expect(response.statusCode).toStrictEqual(201);
+      expect(responsePayload.status).toStrictEqual('success');
       expect(responsePayload.data.addedUser).toBeDefined();
     });
 
@@ -52,8 +52,8 @@ describe('/users endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(400);
-      expect(responsePayload.status).toEqual('fail');
+      expect(response.statusCode).toStrictEqual(400);
+      expect(responsePayload.status).toStrictEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });
 
@@ -72,8 +72,8 @@ describe('/users endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(400);
-      expect(responsePayload.status).toEqual('fail');
+      expect(response.statusCode).toStrictEqual(400);
+      expect(responsePayload.status).toStrictEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });
 
@@ -93,8 +93,8 @@ describe('/users endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(400);
-      expect(responsePayload.status).toEqual('fail');
+      expect(response.statusCode).toStrictEqual(400);
+      expect(responsePayload.status).toStrictEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });
 
@@ -113,8 +113,8 @@ describe('/users endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(400);
-      expect(responsePayload.status).toEqual('fail');
+      expect(response.statusCode).toStrictEqual(400);
+      expect(responsePayload.status).toStrictEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });
 
@@ -134,8 +134,8 @@ describe('/users endpoint', () => {
       });
 
       const responsePayload = JSON.parse(response.payload);
-      expect(response.statusCode).toEqual(400);
-      expect(responsePayload.status).toEqual('fail');
+      expect(response.statusCode).toStrictEqual(400);
+      expect(responsePayload.status).toStrictEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });
   });

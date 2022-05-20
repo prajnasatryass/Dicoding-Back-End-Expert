@@ -13,10 +13,10 @@ describe('Reply', () => {
     const reply = new Reply(payload);
 
     expect(reply).toBeInstanceOf(Reply);
-    expect(reply.id).toEqual(payload.id);
-    expect(reply.username).toEqual(payload.username);
-    expect(reply.date).toEqual(payload.date);
-    expect(reply.content).toEqual(payload.content);
+    expect(reply.id).toStrictEqual(payload.id);
+    expect(reply.username).toStrictEqual(payload.username);
+    expect(reply.date).toStrictEqual(payload.date);
+    expect(reply.content).toStrictEqual(payload.content);
   });
 
   it('should create deleted Reply correctly', () => {
@@ -31,9 +31,9 @@ describe('Reply', () => {
     const reply = new Reply(payload);
 
     expect(reply).toBeInstanceOf(Reply);
-    expect(reply.id).toEqual(payload.id);
-    expect(reply.username).toEqual(payload.username);
-    expect(reply.date).toEqual(payload.date);
-    expect(reply.content).toEqual('**balasan telah dihapus**');
+    expect(reply.id).toStrictEqual(payload.id);
+    expect(reply.username).toStrictEqual(payload.username);
+    expect(reply.date).toStrictEqual(payload.date);
+    expect(reply.content).toStrictEqual('**balasan telah dihapus**');
   });
 });

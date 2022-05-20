@@ -27,7 +27,7 @@ describe('UserLogin', () => {
     const userLogin = new UserLogin(payload);
 
     expect(userLogin).toBeInstanceOf(UserLogin);
-    expect(userLogin.username).toEqual(payload.username);
-    expect(userLogin.password).toEqual(payload.password);
+    expect(userLogin.username).toStrictEqual(payload.username);
+    expect(userLogin.password).toStrictEqual(payload.password);
   });
 });

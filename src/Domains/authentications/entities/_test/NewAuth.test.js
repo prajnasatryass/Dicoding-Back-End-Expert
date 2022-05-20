@@ -26,7 +26,7 @@ describe('NewAuth', () => {
 
     const { accessToken, refreshToken } = new NewAuth(payload);
 
-    expect(accessToken).toEqual(payload.accessToken);
-    expect(refreshToken).toEqual(payload.refreshToken);
+    expect(accessToken).toStrictEqual(payload.accessToken);
+    expect(refreshToken).toStrictEqual(payload.refreshToken);
   });
 });

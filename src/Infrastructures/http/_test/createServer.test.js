@@ -10,7 +10,7 @@ describe('HTTP server', () => {
       url: '/threads',
     });
 
-    expect(response.statusCode).toEqual(401);
+    expect(response.statusCode).toStrictEqual(401);
   });
 
   it('should return 404 response if an unregistered route is requested', async () => {
@@ -21,7 +21,7 @@ describe('HTTP server', () => {
       url: '/unregisteredRoute',
     });
 
-    expect(response.statusCode).toEqual(404);
+    expect(response.statusCode).toStrictEqual(404);
   });
 
   it('should return 500 if a server error occurred', async () => {
@@ -39,8 +39,8 @@ describe('HTTP server', () => {
     });
 
     const responsePayload = JSON.parse(response.payload);
-    expect(response.statusCode).toEqual(500);
-    expect(responsePayload.status).toEqual('error');
-    expect(responsePayload.message).toEqual('terjadi kegagalan pada server kami');
+    expect(response.statusCode).toStrictEqual(500);
+    expect(responsePayload.status).toStrictEqual('error');
+    expect(responsePayload.message).toStrictEqual('terjadi kegagalan pada server kami');
   });
 });

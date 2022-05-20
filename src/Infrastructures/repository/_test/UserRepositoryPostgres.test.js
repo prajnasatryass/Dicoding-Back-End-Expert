@@ -105,7 +105,7 @@ describe('UserRepositoryPostgres', () => {
 
       const userId = await userRepositoryPostgres.getIdByUsername('John10');
 
-      expect(userId).toEqual('user-1');
+      expect(userId).toStrictEqual('user-1');
     });
   });
 });

@@ -37,7 +37,7 @@ describe('AuthenticationUseCases', () => {
 
       const actual = await authenticationUseCases.login(useCasePayload);
 
-      expect(actual).toEqual(expected);
+      expect(actual).toStrictEqual(expected);
       expect(mockUserRepository.getPasswordByUsername)
         .toBeCalledWith('John10');
       expect(mockHasher.match)
@@ -94,7 +94,7 @@ describe('AuthenticationUseCases', () => {
 
       const actual = await authenticationUseCases.refresh(useCasePayload);
 
-      expect(actual).toEqual(expected);
+      expect(actual).toStrictEqual(expected);
       expect(mockTokenManager.verifyRefreshToken)
         .toBeCalledWith(useCasePayload.refreshToken);
       expect(mockAuthenticationRepository.verifyTokenAvailability)
