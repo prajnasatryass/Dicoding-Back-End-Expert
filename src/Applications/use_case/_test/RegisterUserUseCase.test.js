@@ -20,16 +20,13 @@ describe('RegisterUserUseCase', () => {
     const mockUserRepository = new UserRepository();
     const mockHasher = new Hasher();
 
-    mockUserRepository.verifyUsernameAvailability = jest.fn()
-      .mockImplementation(() => Promise.resolve());
-    mockHasher.hash = jest.fn()
-      .mockImplementation(() => Promise.resolve('hashed_password'));
-    mockUserRepository.registerUser = jest.fn()
-      .mockImplementation(() => Promise.resolve(new RegisteredUser({
-        id: 'user-1',
-        username: 'John10',
-        fullname: 'John Doe',
-      })));
+    mockUserRepository.verifyUsernameAvailability = jest.fn(() => Promise.resolve());
+    mockHasher.hash = jest.fn(() => Promise.resolve('hashed_password'));
+    mockUserRepository.registerUser = jest.fn(() => Promise.resolve(new RegisteredUser({
+      id: 'user-1',
+      username: 'John10',
+      fullname: 'John Doe',
+    })));
 
     const registerUserUseCase = new RegisterUserUseCase({
       userRepository: mockUserRepository,

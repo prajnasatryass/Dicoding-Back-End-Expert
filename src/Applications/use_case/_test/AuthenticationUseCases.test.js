@@ -21,18 +21,12 @@ describe('AuthenticationUseCases', () => {
       const mockHasher = new Hasher();
       const mockTokenManager = new TokenManager();
 
-      mockUserRepository.getPasswordByUsername = jest.fn()
-        .mockImplementation(() => Promise.resolve('hashed_password'));
-      mockHasher.match = jest.fn()
-        .mockImplementation(() => Promise.resolve());
-      mockTokenManager.createAccessToken = jest.fn()
-        .mockImplementation(() => Promise.resolve('access_token'));
-      mockTokenManager.createRefreshToken = jest.fn()
-        .mockImplementation(() => Promise.resolve('refresh_token'));
-      mockUserRepository.getIdByUsername = jest.fn()
-        .mockImplementation(() => Promise.resolve('user-1'));
-      mockAuthenticationRepository.registerToken = jest.fn()
-        .mockImplementation(() => Promise.resolve());
+      mockUserRepository.getPasswordByUsername = jest.fn(() => Promise.resolve('hashed_password'));
+      mockHasher.match = jest.fn(() => Promise.resolve());
+      mockTokenManager.createAccessToken = jest.fn(() => Promise.resolve('access_token'));
+      mockTokenManager.createRefreshToken = jest.fn(() => Promise.resolve('refresh_token'));
+      mockUserRepository.getIdByUsername = jest.fn(() => Promise.resolve('user-1'));
+      mockAuthenticationRepository.registerToken = jest.fn(() => Promise.resolve());
 
       const authenticationUseCases = new AuthenticationUseCases({
         authenticationRepository: mockAuthenticationRepository,
@@ -88,14 +82,10 @@ describe('AuthenticationUseCases', () => {
       const mockAuthenticationRepository = new AuthenticationRepository();
       const mockTokenManager = new TokenManager();
 
-      mockAuthenticationRepository.verifyTokenAvailability = jest.fn()
-        .mockImplementation(() => Promise.resolve());
-      mockTokenManager.verifyRefreshToken = jest.fn()
-        .mockImplementation(() => Promise.resolve());
-      mockTokenManager.decodePayload = jest.fn()
-        .mockImplementation(() => Promise.resolve({ username: 'John10', id: 'user-1' }));
-      mockTokenManager.createAccessToken = jest.fn()
-        .mockImplementation(() => Promise.resolve('access_token'));
+      mockAuthenticationRepository.verifyTokenAvailability = jest.fn(() => Promise.resolve());
+      mockTokenManager.verifyRefreshToken = jest.fn(() => Promise.resolve());
+      mockTokenManager.decodePayload = jest.fn(() => Promise.resolve({ username: 'John10', id: 'user-1' }));
+      mockTokenManager.createAccessToken = jest.fn(() => Promise.resolve('access_token'));
 
       const authenticationUseCases = new AuthenticationUseCases({
         authenticationRepository: mockAuthenticationRepository,
@@ -143,10 +133,8 @@ describe('AuthenticationUseCases', () => {
       };
       const mockAuthenticationRepository = new AuthenticationRepository();
 
-      mockAuthenticationRepository.verifyTokenAvailability = jest.fn()
-        .mockImplementation(() => Promise.resolve());
-      mockAuthenticationRepository.deleteToken = jest.fn()
-        .mockImplementation(() => Promise.resolve());
+      mockAuthenticationRepository.verifyTokenAvailability = jest.fn(() => Promise.resolve());
+      mockAuthenticationRepository.deleteToken = jest.fn(() => Promise.resolve());
 
       const authenticationUseCases = new AuthenticationUseCases({
         authenticationRepository: mockAuthenticationRepository,

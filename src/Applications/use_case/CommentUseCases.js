@@ -22,6 +22,14 @@ class CommentUseCases {
     await this._commentRepository.deleteComment(commentId);
   }
 
+  async toggleCommentLikeStatus(userId, useCasePayload) {
+    this._verifyToggleCommentLikeStatusPayload(useCasePayload);
+    const { threadId, commentId } = useCasePayload;
+    await this._threadRepository.isExistingThread(threadId);
+    await this._commentRepository.isExistingComment(threadId, commentId);
+    await this._commentRepository.toggleCommentLikeStatus(userId, commentId);
+  }
+
   _verifyAddCommentPayload({ threadId, content }) {
     if (!threadId || !content) {
       throw new Error('MISSING_REQUIRED_PROPERTIES');
@@ -32,6 +40,15 @@ class CommentUseCases {
   }
 
   _verifyDeleteCommentPayload({ threadId, commentId }) {
+    if (!threadId || !commentId) {
+      throw new Error('MISSING_REQUIRED_PROPERTIES');
+    }
+    if (typeof threadId !== 'string' || typeof commentId !== 'string') {
+      throw new Error('DATA_TYPE_MISMATCH');
+    }
+  }
+
+  _verifyToggleCommentLikeStatusPayload({ threadId, commentId }) {
     if (!threadId || !commentId) {
       throw new Error('MISSING_REQUIRED_PROPERTIES');
     }

@@ -18,6 +18,10 @@ class CommentRepository {
   async verifyCommentOwnership(ownerId, id) {
     throw new Error('METHOD_NOT_IMPLEMENTED');
   }
+
+  async toggleCommentLikeStatus(userId, id) {
+    throw new Error('METHOD_NOT_IMPLEMENTED');
+  }
 }
 
 module.exports = CommentRepository;

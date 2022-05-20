@@ -21,11 +21,11 @@ class CommentRepositoryPostgres extends CommentRepository {
 
   async getThreadComments(threadId) {
     const query = {
-      text: 'SELECT a.id, b.username, a.inserted_at AS date, a.content, a.deleted_at FROM comments a JOIN users b ON a.owner_id = b.id WHERE a.thread_id = $1 ORDER BY a.inserted_at ASC',
+      text: 'SELECT a.id, b.username, a.inserted_at AS date, a.content, a.deleted_at, COUNT(c.comment_id) AS like_count FROM comments a JOIN users b ON a.owner_id = b.id LEFT JOIN comment_likes c on a.id = c.comment_id WHERE a.thread_id = $1 GROUP BY a.id, b.username, a.inserted_at, a.content, a.deleted_at ORDER BY a.inserted_at ASC',
       values: [threadId],
     };
-    const result = await this._pool.query(query);
-    return result.rows;
+    const { rows } = await this._pool.query(query);
+    return rows;
   }
 
   async deleteComment(id) {
@@ -61,6 +61,23 @@ class CommentRepositoryPostgres extends CommentRepository {
     }
     if (result.rows[0].owner !== ownerId) {
       throw new AuthorizationError('anda bukan pemilik komentar');
+    }
+  }
+
+  async toggleCommentLikeStatus(userId, commentId) {
+    const id = `c_like-${this._idGenerator()}`;
+    let query = {
+      text: 'INSERT INTO comment_likes VALUES($1, $2, $3, current_timestamp) RETURNING id',
+      values: [id, commentId, userId],
+    };
+    try {
+      await this._pool.query(query);
+    } catch {
+      query = {
+        text: 'DELETE FROM comment_likes WHERE comment_id = $1 AND user_id = $2 RETURNING id',
+        values: [commentId, userId],
+      };
+      await this._pool.query(query);
     }
   }
 }

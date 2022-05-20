@@ -49,16 +49,13 @@ describe('ReplyUseCases', () => {
       const mockCommentRepository = new CommentRepository();
       const mockReplyRepository = new ReplyRepository();
 
-      mockThreadRepository.isExistingThread = jest.fn()
-        .mockImplementation(() => Promise.resolve());
-      mockCommentRepository.isExistingComment = jest.fn()
-        .mockImplementation(() => Promise.resolve());
-      mockReplyRepository.addReply = jest.fn()
-        .mockImplementation(() => Promise.resolve({
-          id: 'reply-1',
-          content: 'Content',
-          owner: 'user-1',
-        }));
+      mockThreadRepository.isExistingThread = jest.fn(() => Promise.resolve());
+      mockCommentRepository.isExistingComment = jest.fn(() => Promise.resolve());
+      mockReplyRepository.addReply = jest.fn(() => Promise.resolve({
+        id: 'reply-1',
+        content: 'Content',
+        owner: 'user-1',
+      }));
 
       const replyUseCases = new ReplyUseCases({
         threadRepository: mockThreadRepository,
@@ -118,16 +115,11 @@ describe('ReplyUseCases', () => {
       const mockCommentRepository = new CommentRepository();
       const mockReplyRepository = new ReplyRepository();
 
-      mockThreadRepository.isExistingThread = jest.fn()
-        .mockImplementation(() => Promise.resolve());
-      mockCommentRepository.isExistingComment = jest.fn()
-        .mockImplementation(() => Promise.resolve());
-      mockReplyRepository.isExistingReply = jest.fn()
-        .mockImplementation(() => Promise.resolve());
-      mockReplyRepository.verifyReplyOwnership = jest.fn()
-        .mockImplementation(() => Promise.resolve());
-      mockReplyRepository.deleteReply = jest.fn()
-        .mockImplementation(() => Promise.resolve());
+      mockThreadRepository.isExistingThread = jest.fn(() => Promise.resolve());
+      mockCommentRepository.isExistingComment = jest.fn(() => Promise.resolve());
+      mockReplyRepository.isExistingReply = jest.fn(() => Promise.resolve());
+      mockReplyRepository.verifyReplyOwnership = jest.fn(() => Promise.resolve());
+      mockReplyRepository.deleteReply = jest.fn(() => Promise.resolve());
 
       const replyUseCases = new ReplyUseCases({
         threadRepository: mockThreadRepository,

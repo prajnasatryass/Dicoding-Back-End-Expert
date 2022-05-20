@@ -19,6 +19,14 @@ const routes = (handler) => ([
       auth: process.env.APP_AUTH_STRATEGY_NAME,
     },
   },
+  {
+    method: HttpMethods.PUT,
+    path: `${baseRoute}/{commentId}/likes`,
+    handler: handler.toggleCommentLikeStatusHandler,
+    options: {
+      auth: process.env.APP_AUTH_STRATEGY_NAME,
+    },
+  },
 ]);
 
 module.exports = routes;

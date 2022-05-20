@@ -1,4 +1,6 @@
 const NewThread = require('../../Domains/threads/entities/NewThread');
+const Comment = require('../../Domains/comments/entities/Comment');
+const Reply = require('../../Domains/replies/entities/Reply');
 
 class ThreadUseCases {
   constructor({
@@ -18,28 +20,12 @@ class ThreadUseCases {
     this._verifyGetThreadPayload(useCasePayload);
     const { threadId } = useCasePayload;
     const thread = await this._threadRepository.getThread(threadId);
-    thread.comments = await this._commentRepository.getThreadComments(threadId);
-    await Promise.all(thread.comments.map(
-      async ({ id }) => this._replyRepository.getCommentReplies(id),
-    )).then((replies) => {
-      thread.comments.forEach((_, index) => {
-        thread.comments[index].replies = replies[index];
-      });
-    });
-
-    thread.comments.forEach((cElement, cIndex) => {
-      if (cElement.deleted_at) {
-        thread.comments[cIndex].content = '**komentar telah dihapus**';
-      }
-      delete thread.comments[cIndex].deleted_at;
-
-      thread.comments[cIndex].replies.forEach((rElement, rIndex) => {
-        if (rElement.deleted_at) {
-          thread.comments[cIndex].replies[rIndex].content = '**balasan telah dihapus**';
-        }
-        delete thread.comments[cIndex].replies[rIndex].deleted_at;
-      });
-    });
+    const comments = await this._commentRepository.getThreadComments(threadId);
+    thread.comments = await Promise.all(comments.map(async (comment) => {
+      const replies = await this._replyRepository.getCommentReplies(comment.id);
+      comment.replies = replies.map((reply) => new Reply(reply));
+      return new Comment(comment);
+    }));
 
     return thread;
   }

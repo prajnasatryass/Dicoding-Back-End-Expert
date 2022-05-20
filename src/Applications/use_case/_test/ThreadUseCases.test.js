@@ -3,6 +3,8 @@ const ThreadRepository = require('../../../Domains/threads/ThreadRepository');
 const CommentRepository = require('../../../Domains/comments/CommentRepository');
 const ReplyRepository = require('../../../Domains/replies/ReplyRepository');
 const ThreadUseCases = require('../ThreadUseCases');
+const Comment = require('../../../Domains/comments/entities/Comment');
+const Reply = require('../../../Domains/replies/entities/Reply');
 
 describe('ThreadUseCases', () => {
   describe('createThread', () => {
@@ -20,12 +22,11 @@ describe('ThreadUseCases', () => {
 
       const mockThreadRepository = new ThreadRepository();
 
-      mockThreadRepository.createThread = jest.fn()
-        .mockImplementation(() => Promise.resolve({
-          id: 'thread-1',
-          title: 'Title',
-          owner: 'user-1',
-        }));
+      mockThreadRepository.createThread = jest.fn(() => Promise.resolve({
+        id: 'thread-1',
+        title: 'Title',
+        owner: 'user-1',
+      }));
 
       const threadUseCases = new ThreadUseCases({
         threadRepository: mockThreadRepository,
@@ -72,61 +73,67 @@ describe('ThreadUseCases', () => {
         body: 'Body',
         date: '2022-01-01T00:00:00.000Z',
         username: 'John10',
-        comments: [{
-          id: 'comment-1',
-          username: 'John10',
-          date: '2022-01-01T00:00:00.000Z',
-          content: '**komentar telah dihapus**',
-          replies: [{
-            id: 'reply-1',
+        comments: [
+          new Comment({
+            id: 'comment-1',
             username: 'John10',
             date: '2022-01-01T00:00:00.000Z',
             content: 'Content',
-          }],
-        },
-        {
-          id: 'comment-2',
-          username: 'John10',
-          date: '2022-01-01T00:00:00.000Z',
-          content: 'Content',
-          replies: [{
-            id: 'reply-2',
+            deleted_at: '2022-01-01T00:00:00.000Z',
+            likeCount: 0,
+            replies: [new Reply({
+              id: 'reply-1',
+              username: 'John10',
+              date: '2022-01-01T00:00:00.000Z',
+              content: 'Content',
+            })],
+          }),
+          new Comment({
+            id: 'comment-2',
             username: 'John10',
             date: '2022-01-01T00:00:00.000Z',
-            content: '**balasan telah dihapus**',
-          }],
-        }],
+            content: 'Content',
+            likeCount: 0,
+            replies: [new Reply({
+              id: 'reply-2',
+              username: 'John10',
+              date: '2022-01-01T00:00:00.000Z',
+              content: 'Content',
+              deleted_at: '2022-01-01T00:00:00.000Z',
+            })],
+          }),
+        ],
       };
 
       const mockThreadRepository = new ThreadRepository();
       const mockCommentRepository = new CommentRepository();
       const mockReplyRepository = new ReplyRepository();
 
-      mockThreadRepository.getThread = jest.fn()
-        .mockImplementation(() => Promise.resolve({
-          id: 'thread-1',
-          title: 'Title',
-          body: 'Body',
-          date: '2022-01-01T00:00:00.000Z',
+      mockThreadRepository.getThread = jest.fn(() => Promise.resolve({
+        id: 'thread-1',
+        title: 'Title',
+        body: 'Body',
+        date: '2022-01-01T00:00:00.000Z',
+        username: 'John10',
+      }));
+      mockCommentRepository.getThreadComments = jest.fn(() => Promise.resolve([
+        {
+          id: 'comment-1',
           username: 'John10',
-        }));
-      mockCommentRepository.getThreadComments = jest.fn()
-        .mockImplementation(() => Promise.resolve([
-          {
-            id: 'comment-1',
-            username: 'John10',
-            date: '2022-01-01T00:00:00.000Z',
-            content: 'Content',
-            deleted_at: '2022-01-01T00:00:00.000Z',
-          },
-          {
-            id: 'comment-2',
-            username: 'John10',
-            date: '2022-01-01T00:00:00.000Z',
-            content: 'Content',
-            deleted_at: null,
-          },
-        ]));
+          date: '2022-01-01T00:00:00.000Z',
+          content: 'Content',
+          deleted_at: '2022-01-01T00:00:00.000Z',
+          likeCount: 0,
+        },
+        {
+          id: 'comment-2',
+          username: 'John10',
+          date: '2022-01-01T00:00:00.000Z',
+          content: 'Content',
+          deleted_at: null,
+          likeCount: 0,
+        },
+      ]));
       mockReplyRepository.getCommentReplies = jest.fn()
         .mockImplementationOnce(() => Promise.resolve([
           {

@@ -9,5 +9,6 @@ describe('CommentRepository', () => {
     await expect(commentRepository.deleteComment('')).rejects.toThrowError('METHOD_NOT_IMPLEMENTED');
     await expect(commentRepository.isExistingComment('', '')).rejects.toThrowError('METHOD_NOT_IMPLEMENTED');
     await expect(commentRepository.verifyCommentOwnership('', '')).rejects.toThrowError('METHOD_NOT_IMPLEMENTED');
+    await expect(commentRepository.toggleCommentLikeStatus('', '')).rejects.toThrowError('METHOD_NOT_IMPLEMENTED');
   });
 });

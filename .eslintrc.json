@@ -15,7 +15,7 @@
         "class-methods-use-this": "off",
         "no-unused-vars": "off",
         "no-underscore-dangle": "off",
-        "no-param-reassign": "warn",
+        "no-param-reassign": "off",
         "no-undef": "off"
     }
 }

@@ -3,6 +3,7 @@ const pool = require('../../database/postgres/pool');
 const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
 const ThreadsTableTestHelper = require('../../../../tests/ThreadsTableTestHelper');
 const CommentsTableTestHelper = require('../../../../tests/CommentsTableTestHelper');
+const CommentLikesTableTestHelper = require('../../../../tests/CommentLikesTableTestHelper');
 const RepliesTableTestHelper = require('../../../../tests/RepliesTableTestHelper');
 const container = require('../../container');
 const createServer = require('../createServer');
@@ -644,6 +645,109 @@ describe('/threads endpoint', () => {
 
       const responsePayload = JSON.parse(response.payload);
       expect(response.statusCode).toEqual(403);
+      expect(responsePayload.status).toEqual('fail');
+      expect(responsePayload.message).toBeDefined();
+    });
+  });
+
+  describe('PUT /threads/{threadId}/comments/{commentId}/likes', () => {
+    it('should return 200 response if liking comment is successful', async () => {
+      const threadId = 'thread-1';
+      const commentId = 'comment-1';
+      const server = await createServer(container);
+
+      await ThreadsTableTestHelper.createThread({ id: threadId });
+      await CommentsTableTestHelper.addComment({ id: commentId, threadId });
+
+      const response = await server.inject({
+        method: HttpMethods.PUT,
+        url: `/threads/${threadId}/comments/${commentId}/likes`,
+        headers: {
+          Authorization,
+        },
+      });
+
+      const responsePayload = JSON.parse(response.payload);
+      expect(response.statusCode).toEqual(200);
+      expect(responsePayload.status).toEqual('success');
+    });
+
+    it('should return 200 response if unliking comment is successful', async () => {
+      const threadId = 'thread-1';
+      const commentId = 'comment-1';
+      const server = await createServer(container);
+
+      await ThreadsTableTestHelper.createThread({ id: threadId });
+      await CommentsTableTestHelper.addComment({ id: commentId, threadId });
+
+      await server.inject({
+        method: HttpMethods.PUT,
+        url: `/threads/${threadId}/comments/${commentId}/likes`,
+        headers: {
+          Authorization,
+        },
+      });
+
+      const response = await server.inject({
+        method: HttpMethods.PUT,
+        url: `/threads/${threadId}/comments/${commentId}/likes`,
+        headers: {
+          Authorization,
+        },
+      });
+
+      const responsePayload = JSON.parse(response.payload);
+      expect(response.statusCode).toEqual(200);
+      expect(responsePayload.status).toEqual('success');
+    });
+
+    it('should return 401 response if request does not have authorization header', async () => {
+      const server = await createServer(container);
+
+      const response = await server.inject({
+        method: HttpMethods.PUT,
+        url: '/threads/thread-1/comments/comment-1/likes',
+      });
+
+      expect(response.statusCode).toEqual(401);
+    });
+
+    it('should return 404 response if thread does not exist', async () => {
+      const threadId = 'thread-1';
+      const commentId = 'comment-1';
+      const server = await createServer(container);
+
+      const response = await server.inject({
+        method: HttpMethods.PUT,
+        url: `/threads/${threadId}/comments/${commentId}/likes`,
+        headers: {
+          Authorization,
+        },
+      });
+
+      const responsePayload = JSON.parse(response.payload);
+      expect(response.statusCode).toEqual(404);
+      expect(responsePayload.status).toEqual('fail');
+      expect(responsePayload.message).toBeDefined();
+    });
+
+    it('should return 404 response if comment does not exist', async () => {
+      const threadId = 'thread-1';
+      const commentId = 'comment-1';
+      const server = await createServer(container);
+
+      await ThreadsTableTestHelper.createThread({ id: threadId });
+
+      const response = await server.inject({
+        method: HttpMethods.PUT,
+        url: `/threads/${threadId}/comments/${commentId}/likes`,
+        headers: {
+          Authorization,
+        },
+      });
+
+      const responsePayload = JSON.parse(response.payload);
+      expect(response.statusCode).toEqual(404);
       expect(responsePayload.status).toEqual('fail');
       expect(responsePayload.message).toBeDefined();
     });

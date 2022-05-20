@@ -3,7 +3,7 @@ const pool = require('../src/Infrastructures/database/postgres/pool');
 
 const tableName = 'comments';
 
-const ThreadCommentsTableTestHelper = {
+const CommentsTableTestHelper = {
   async addComment({
     id = 'comment-1', threadId = 'thread-1', content = 'Test comment', ownerId = 'user-1',
   }) {
@@ -25,7 +25,7 @@ const ThreadCommentsTableTestHelper = {
 
   async findThreadComments(threadId) {
     const query = {
-      text: `SELECT * FROM ${tableName} WHERE thread_id = $1`,
+      text: `SELECT * FROM ${tableName} a WHERE thread_id = $1`,
       values: [threadId],
     };
     const result = await pool.query(query);
@@ -47,4 +47,4 @@ const ThreadCommentsTableTestHelper = {
   },
 };
 
-module.exports = ThreadCommentsTableTestHelper;
+module.exports = CommentsTableTestHelper;
