@@ -8,7 +8,7 @@ const routes = (handler) => ([
     path: baseRoute,
     handler: handler.createThreadHandler,
     options: {
-      auth: process.env.APP_AUTH_STRATEGY_NAME,
+      auth: 'auth_jwt',
     },
   },
   {

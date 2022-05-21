@@ -8,7 +8,7 @@ const routes = (handler) => ([
     path: baseRoute,
     handler: handler.addCommentHandler,
     options: {
-      auth: process.env.APP_AUTH_STRATEGY_NAME,
+      auth: 'auth_jwt',
     },
   },
   {
@@ -16,7 +16,7 @@ const routes = (handler) => ([
     path: `${baseRoute}/{commentId}`,
     handler: handler.deleteCommentHandler,
     options: {
-      auth: process.env.APP_AUTH_STRATEGY_NAME,
+      auth: 'auth_jwt',
     },
   },
   {
@@ -24,7 +24,7 @@ const routes = (handler) => ([
     path: `${baseRoute}/{commentId}/likes`,
     handler: handler.toggleCommentLikeStatusHandler,
     options: {
-      auth: process.env.APP_AUTH_STRATEGY_NAME,
+      auth: 'auth_jwt',
     },
   },
 ]);

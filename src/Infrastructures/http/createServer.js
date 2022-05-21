@@ -21,7 +21,7 @@ const createServer = async (container) => {
     },
   ]);
 
-  server.auth.strategy(process.env.APP_AUTH_STRATEGY_NAME, 'jwt', {
+  server.auth.strategy('auth_jwt', 'jwt', {
     keys: process.env.ACCESS_TOKEN_KEY,
     verify: {
       aud: false,
