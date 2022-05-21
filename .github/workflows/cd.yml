@@ -1,0 +1,25 @@
+name: Continuous Deployment
+ 
+on: 
+  push:
+    branches:
+      - master
+ 
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+ 
+    steps:
+    - name: SSH and deploy app
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        port: ${{ secrets.SSH_PORT }}
+        key: ${{ secrets.SSH_KEY }}
+        username: ${{ secrets.SSH_USERNAME }}
+        script: |
+          cd Dicoding-Back-End-Expert/
+          git pull origin master
+          npm install
+          npm run migrate up
+          pm2 restart forum-api
