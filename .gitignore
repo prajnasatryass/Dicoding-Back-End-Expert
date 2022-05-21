@@ -110,4 +110,4 @@ package-lock.json
 config/database/test.json
 coverage
 *.pem
-aws.txt
+*.txt
