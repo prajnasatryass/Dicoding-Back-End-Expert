@@ -17,8 +17,8 @@ const AuthenticationsTableTestHelper = {
       text: `SELECT token FROM ${tableName} WHERE token = $1`,
       values: [token],
     };
-    const result = await pool.query(query);
-    return result.rows;
+    const { rows } = await pool.query(query);
+    return rows;
   },
 
   async cleanTable() {

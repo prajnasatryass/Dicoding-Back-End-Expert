@@ -19,8 +19,8 @@ const CommentsTableTestHelper = {
       text: `SELECT * FROM ${tableName} WHERE id = $1`,
       values: [id],
     };
-    const result = await pool.query(query);
-    return result.rows;
+    const { rows } = await pool.query(query);
+    return rows;
   },
 
   async findThreadComments(threadId) {
@@ -28,8 +28,8 @@ const CommentsTableTestHelper = {
       text: `SELECT * FROM ${tableName} a WHERE thread_id = $1`,
       values: [threadId],
     };
-    const result = await pool.query(query);
-    return result.rows;
+    const { rows } = await pool.query(query);
+    return rows;
   },
 
   async deleteComment({
