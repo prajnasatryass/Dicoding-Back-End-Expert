@@ -8,7 +8,7 @@ const routes = (handler) => ([
     path: baseRoute,
     handler: handler.addReplyHandler,
     options: {
-      auth: process.env.APP_AUTH_STRATEGY_NAME,
+      auth: 'auth_jwt',
     },
   },
   {
@@ -16,7 +16,7 @@ const routes = (handler) => ([
     path: `${baseRoute}/{replyId}`,
     handler: handler.deleteReplyHandler,
     options: {
-      auth: process.env.APP_AUTH_STRATEGY_NAME,
+      auth: 'auth_jwt',
     },
   },
 ]);
