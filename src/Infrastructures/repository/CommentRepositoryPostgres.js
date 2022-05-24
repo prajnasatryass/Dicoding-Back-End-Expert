@@ -64,20 +64,23 @@ class CommentRepositoryPostgres extends CommentRepository {
     }
   }
 
-  async toggleCommentLikeStatus(userId, commentId) {
+  async likeComment(userId, commentId) {
     const id = `c_like-${this._idGenerator()}`;
-    let query = {
-      text: 'INSERT INTO comment_likes VALUES($1, $2, $3, current_timestamp) RETURNING id',
+    const query = {
+      text: 'INSERT INTO comment_likes VALUES($1, $2, $3, current_timestamp)',
       values: [id, commentId, userId],
     };
-    try {
-      await this._pool.query(query);
-    } catch {
-      query = {
-        text: 'DELETE FROM comment_likes WHERE comment_id = $1 AND user_id = $2 RETURNING id',
-        values: [commentId, userId],
-      };
-      await this._pool.query(query);
+    await this._pool.query(query);
+  }
+
+  async unlikeComment(userId, commentId) {
+    const query = {
+      text: 'DELETE FROM comment_likes WHERE comment_id = $1 AND user_id = $2 RETURNING id',
+      values: [commentId, userId],
+    };
+    const result = await this._pool.query(query);
+    if (!result.rowCount) {
+      throw new NotFoundError('like komentar tidak ditemukan');
     }
   }
 }

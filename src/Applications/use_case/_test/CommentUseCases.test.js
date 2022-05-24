@@ -151,7 +151,7 @@ describe('CommentUseCases', () => {
         .toThrowError('DATA_TYPE_MISMATCH');
     });
 
-    it('should orchestrate toggle comment like status action correctly', async () => {
+    it('should orchestrate like comment action correctly', async () => {
       const userId = 'user-1';
       const useCasePayload = {
         threadId: 'thread-1',
@@ -163,7 +163,7 @@ describe('CommentUseCases', () => {
 
       mockThreadRepository.isExistingThread = jest.fn(() => Promise.resolve());
       mockCommentRepository.isExistingComment = jest.fn(() => Promise.resolve());
-      mockCommentRepository.toggleCommentLikeStatus = jest.fn(() => Promise.resolve());
+      mockCommentRepository.likeComment = jest.fn(() => Promise.resolve());
 
       const commentUseCases = new CommentUseCases({
         threadRepository: mockThreadRepository,
@@ -176,7 +176,39 @@ describe('CommentUseCases', () => {
         .toBeCalledWith(useCasePayload.threadId);
       expect(mockCommentRepository.isExistingComment)
         .toBeCalledWith(useCasePayload.threadId, useCasePayload.commentId);
-      expect(mockCommentRepository.toggleCommentLikeStatus)
+      expect(mockCommentRepository.likeComment)
+        .toBeCalledWith(userId, useCasePayload.commentId);
+    });
+
+    it('should orchestrate unlike comment action correctly', async () => {
+      const userId = 'user-1';
+      const useCasePayload = {
+        threadId: 'thread-1',
+        commentId: 'comment-1',
+      };
+
+      const mockThreadRepository = new ThreadRepository();
+      const mockCommentRepository = new CommentRepository();
+
+      mockThreadRepository.isExistingThread = jest.fn(() => Promise.resolve());
+      mockCommentRepository.isExistingComment = jest.fn(() => Promise.resolve());
+      mockCommentRepository.likeComment = jest.fn(() => Promise.reject());
+      mockCommentRepository.unlikeComment = jest.fn(() => Promise.resolve());
+
+      const commentUseCases = new CommentUseCases({
+        threadRepository: mockThreadRepository,
+        commentRepository: mockCommentRepository,
+      });
+
+      await commentUseCases.toggleCommentLikeStatus(userId, useCasePayload);
+
+      expect(mockThreadRepository.isExistingThread)
+        .toBeCalledWith(useCasePayload.threadId);
+      expect(mockCommentRepository.isExistingComment)
+        .toBeCalledWith(useCasePayload.threadId, useCasePayload.commentId);
+      expect(mockCommentRepository.likeComment)
+        .toBeCalledWith(userId, useCasePayload.commentId);
+      expect(mockCommentRepository.unlikeComment)
         .toBeCalledWith(userId, useCasePayload.commentId);
     });
   });

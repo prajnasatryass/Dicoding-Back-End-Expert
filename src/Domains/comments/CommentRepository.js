@@ -19,7 +19,11 @@ class CommentRepository {
     throw new Error('METHOD_NOT_IMPLEMENTED');
   }
 
-  async toggleCommentLikeStatus(userId, id) {
+  async likeComment(userId, id) {
+    throw new Error('METHOD_NOT_IMPLEMENTED');
+  }
+
+  async unlikeComment(userId, id) {
     throw new Error('METHOD_NOT_IMPLEMENTED');
   }
 }

@@ -27,7 +27,11 @@ class CommentUseCases {
     const { threadId, commentId } = useCasePayload;
     await this._threadRepository.isExistingThread(threadId);
     await this._commentRepository.isExistingComment(threadId, commentId);
-    await this._commentRepository.toggleCommentLikeStatus(userId, commentId);
+    try {
+      await this._commentRepository.likeComment(userId, commentId);
+    } catch {
+      await this._commentRepository.unlikeComment(userId, commentId);
+    }
   }
 
   _verifyAddCommentPayload({ threadId, content }) {
