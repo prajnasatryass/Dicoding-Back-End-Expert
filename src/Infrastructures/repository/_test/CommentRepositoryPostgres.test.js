@@ -149,39 +149,43 @@ describe('CommentRepositoryPostgres', () => {
     });
   });
 
-  describe('toggleCommentLikeStatus', () => {
-    it('should persist comment like entry', async () => {
-      const userId = 'user-1';
-      const commentId = 'comment-1';
-      const fakeIdGenerator = () => '1';
-      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, fakeIdGenerator);
+  describe('likeComment', () => {
+    const userId = 'user-1';
+    const commentId = 'comment-1';
 
-      await commentRepositoryPostgres.toggleCommentLikeStatus(userId, commentId);
+    it('should throw Error if user already likes the comment', async () => {
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+      await CommentLikesTableTestHelper.likeComment({ userId, commentId });
 
-      const likeCount = await CommentLikesTableTestHelper.getLikeCount(commentId);
-      expect(likeCount).toBe('1');
+      await expect(commentRepositoryPostgres.likeComment(userId, commentId))
+        .rejects.toThrowError(Error);
     });
 
     it('should like comment correctly', async () => {
-      const userId = 'user-1';
-      const commentId = 'comment-1';
       const fakeIdGenerator = () => '1';
       const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, fakeIdGenerator);
 
-      await commentRepositoryPostgres.toggleCommentLikeStatus(userId, commentId);
+      await commentRepositoryPostgres.likeComment(userId, commentId);
 
       const likeCount = await CommentLikesTableTestHelper.getLikeCount(commentId);
       expect(likeCount).toBe('1');
     });
+  });
 
-    it('should dislike comment correctly', async () => {
+  describe('unlikeComment', () => {
+    it('should throw NotFoundError if comment like does not exist', async () => {
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+
+      await expect(commentRepositoryPostgres.unlikeComment('user-1', 'comment-1')).rejects.toThrowError(NotFoundError);
+    });
+
+    it('should unlike comment correctly', async () => {
       const userId = 'user-1';
       const commentId = 'comment-1';
-      const fakeIdGenerator = () => '1';
-      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, fakeIdGenerator);
-      await CommentLikesTableTestHelper.likeComment({ commentId, userId });
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+      await CommentLikesTableTestHelper.likeComment({ userId, commentId });
 
-      await commentRepositoryPostgres.toggleCommentLikeStatus(userId, commentId);
+      await commentRepositoryPostgres.unlikeComment(userId, commentId);
 
       const likeCount = await CommentLikesTableTestHelper.getLikeCount(commentId);
       expect(likeCount).toBe('0');
