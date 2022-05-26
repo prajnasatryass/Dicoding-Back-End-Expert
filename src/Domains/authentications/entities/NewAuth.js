@@ -2,18 +2,23 @@ class NewAuth {
   constructor(payload) {
     this._verifyPayload(payload);
 
-    const { accessToken, refreshToken } = payload;
+    const {
+      id, username, accessToken, refreshToken,
+    } = payload;
 
+    this.user = { id, username };
     this.accessToken = accessToken;
     this.refreshToken = refreshToken;
   }
 
-  _verifyPayload({ accessToken, refreshToken }) {
-    if (!accessToken || !refreshToken) {
+  _verifyPayload({
+    id, username, accessToken, refreshToken,
+  }) {
+    if (!id || !username || !accessToken || !refreshToken) {
       throw new Error('MISSING_REQUIRED_PROPERTIES');
     }
 
-    if (typeof accessToken !== 'string' || typeof refreshToken !== 'string') {
+    if (typeof id !== 'string' || typeof username !== 'string' || typeof accessToken !== 'string' || typeof refreshToken !== 'string') {
       throw new Error('DATA_TYPE_MISMATCH');
     }
   }

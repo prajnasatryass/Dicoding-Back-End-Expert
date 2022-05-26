@@ -22,7 +22,7 @@ describe('/authentications endpoint', () => {
   });
 
   describe('POST /authentications', () => {
-    it('should return 201 response and new access and refresh token', async () => {
+    it('should return 201 response and user identifiers, new access and refresh token', async () => {
       const requestPayload = {
         username: 'John10',
         password: 'secret',
@@ -48,6 +48,7 @@ describe('/authentications endpoint', () => {
       const responsePayload = JSON.parse(response.payload);
       expect(response.statusCode).toStrictEqual(201);
       expect(responsePayload.status).toStrictEqual('success');
+      expect(responsePayload.data.user).toBeDefined();
       expect(responsePayload.data.accessToken).toBeDefined();
       expect(responsePayload.data.refreshToken).toBeDefined();
     });

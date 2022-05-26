@@ -34,6 +34,9 @@ describe('CommentRepositoryPostgres', () => {
       const fakeIdGenerator = () => '1';
       const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, fakeIdGenerator);
 
+      await UsersTableTestHelper.addUser({});
+      await ThreadsTableTestHelper.createThread({});
+
       await commentRepositoryPostgres.addComment(userId, threadId, content);
 
       const comment = await CommentsTableTestHelper.findComment('comment-1');
@@ -46,6 +49,9 @@ describe('CommentRepositoryPostgres', () => {
       const content = 'Content';
       const fakeIdGenerator = () => '1';
       const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, fakeIdGenerator);
+
+      await UsersTableTestHelper.addUser({});
+      await ThreadsTableTestHelper.createThread({});
 
       const addedComment = await commentRepositoryPostgres.addComment(userId, threadId, content);
 
@@ -71,6 +77,7 @@ describe('CommentRepositoryPostgres', () => {
       const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
 
       await UsersTableTestHelper.addUser({ id: userId, username: expected[0].username });
+      await ThreadsTableTestHelper.createThread({});
       await CommentsTableTestHelper.addComment({
         id: expected[0].id, threadId, ownerId: userId, content: expected[0].content,
       });
@@ -101,6 +108,7 @@ describe('CommentRepositoryPostgres', () => {
       const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
 
       await UsersTableTestHelper.addUser({ id: userId });
+      await ThreadsTableTestHelper.createThread({ id: threadId });
       await CommentsTableTestHelper.addComment({ id: commentId, threadId });
 
       await commentRepositoryPostgres.deleteComment(commentId);
@@ -120,8 +128,11 @@ describe('CommentRepositoryPostgres', () => {
     });
 
     it('should not throw NotFoundError if comment exists', async () => {
-      await CommentsTableTestHelper.addComment({ id: 'comment-1', threadId: 'thread-1' });
       const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+
+      await UsersTableTestHelper.addUser({});
+      await ThreadsTableTestHelper.createThread({});
+      await CommentsTableTestHelper.addComment({});
 
       await expect(commentRepositoryPostgres.isExistingComment('thread-1', 'comment-1')).resolves.not.toThrowError(NotFoundError);
     });
@@ -135,15 +146,21 @@ describe('CommentRepositoryPostgres', () => {
     });
 
     it('should throw AuthorizationError if comment is not owned by user', async () => {
-      await CommentsTableTestHelper.addComment({ id: 'comment-1', ownerId: 'user-2' });
       const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
 
-      await expect(commentRepositoryPostgres.verifyCommentOwnership('user-1', 'comment-1')).rejects.toThrowError(AuthorizationError);
+      await UsersTableTestHelper.addUser({});
+      await ThreadsTableTestHelper.createThread({});
+      await CommentsTableTestHelper.addComment({});
+
+      await expect(commentRepositoryPostgres.verifyCommentOwnership('user-2', 'comment-1')).rejects.toThrowError(AuthorizationError);
     });
 
     it('should not throw AuthorizationError if comment is owned by user', async () => {
-      await CommentsTableTestHelper.addComment({ id: 'comment-1', ownerId: 'user-1' });
       const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+
+      await UsersTableTestHelper.addUser({});
+      await ThreadsTableTestHelper.createThread({});
+      await CommentsTableTestHelper.addComment({});
 
       await expect(commentRepositoryPostgres.verifyCommentOwnership('user-1', 'comment-1')).resolves.not.toThrowError(AuthorizationError);
     });
@@ -155,6 +172,10 @@ describe('CommentRepositoryPostgres', () => {
 
     it('should throw Error if user already likes the comment', async () => {
       const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+
+      await UsersTableTestHelper.addUser({});
+      await ThreadsTableTestHelper.createThread({});
+      await CommentsTableTestHelper.addComment({});
       await CommentLikesTableTestHelper.likeComment({ userId, commentId });
 
       await expect(commentRepositoryPostgres.likeComment(userId, commentId))
@@ -164,6 +185,10 @@ describe('CommentRepositoryPostgres', () => {
     it('should like comment correctly', async () => {
       const fakeIdGenerator = () => '1';
       const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, fakeIdGenerator);
+
+      await UsersTableTestHelper.addUser({});
+      await ThreadsTableTestHelper.createThread({});
+      await CommentsTableTestHelper.addComment({});
 
       await commentRepositoryPostgres.likeComment(userId, commentId);
 
@@ -183,6 +208,10 @@ describe('CommentRepositoryPostgres', () => {
       const userId = 'user-1';
       const commentId = 'comment-1';
       const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+
+      await UsersTableTestHelper.addUser({});
+      await ThreadsTableTestHelper.createThread({});
+      await CommentsTableTestHelper.addComment({});
       await CommentLikesTableTestHelper.likeComment({ userId, commentId });
 
       await commentRepositoryPostgres.unlikeComment(userId, commentId);

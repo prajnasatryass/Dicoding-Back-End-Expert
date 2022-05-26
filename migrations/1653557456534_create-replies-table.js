@@ -35,6 +35,9 @@ exports.up = (pgm) => {
       default: null,
     },
   });
+
+  pgm.addConstraint(tableName, 'fk_comment_id', 'FOREIGN KEY(comment_id) REFERENCES comments(id) ON DELETE CASCADE');
+  pgm.addConstraint(tableName, 'fk_owner_id', 'FOREIGN KEY(owner_id) REFERENCES users(id) ON DELETE CASCADE');
 };
 
 exports.down = (pgm) => {

@@ -30,6 +30,8 @@ describe('ThreadRepositoryPostgres', () => {
       const fakeIdGenerator = () => '1';
       const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, fakeIdGenerator);
 
+      await UsersTableTestHelper.addUser({});
+
       await threadRepositoryPostgres.createThread(userId, newThread);
 
       const thread = await ThreadsTableTestHelper.findThread('thread-1');
@@ -44,6 +46,8 @@ describe('ThreadRepositoryPostgres', () => {
       });
       const fakeIdGenerator = () => '1';
       const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, fakeIdGenerator);
+
+      await UsersTableTestHelper.addUser({});
 
       const addedThread = await threadRepositoryPostgres.createThread(userId, newThread);
 
@@ -95,6 +99,7 @@ describe('ThreadRepositoryPostgres', () => {
     });
 
     it('should not throw NotFoundError if thread exists', async () => {
+      await UsersTableTestHelper.addUser({});
       await ThreadsTableTestHelper.createThread({ id: 'thread-1' });
       const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, {});
 

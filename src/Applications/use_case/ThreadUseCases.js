@@ -21,11 +21,12 @@ class ThreadUseCases {
     const { threadId } = useCasePayload;
     const thread = await this._threadRepository.getThread(threadId);
     const comments = await this._commentRepository.getThreadComments(threadId);
-    thread.comments = await Promise.all(comments.map(async (comment) => {
-      const replies = await this._replyRepository.getCommentReplies(comment.id);
-      comment.replies = replies.map((reply) => new Reply(reply));
+    const replies = await this._replyRepository.getCommentsReplies(comments.map(({ id }) => id));
+    thread.comments = comments.map((comment) => {
+      comment.replies = replies.filter((reply) => reply.comment_id === comment.id)
+        .map((reply) => new Reply(reply));
       return new Comment(comment);
-    }));
+    });
 
     return thread;
   }

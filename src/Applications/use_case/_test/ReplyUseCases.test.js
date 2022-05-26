@@ -45,11 +45,9 @@ describe('ReplyUseCases', () => {
         owner: userId,
       };
 
-      const mockThreadRepository = new ThreadRepository();
       const mockCommentRepository = new CommentRepository();
       const mockReplyRepository = new ReplyRepository();
 
-      mockThreadRepository.isExistingThread = jest.fn(() => Promise.resolve());
       mockCommentRepository.isExistingComment = jest.fn(() => Promise.resolve());
       mockReplyRepository.addReply = jest.fn(() => Promise.resolve({
         id: 'reply-1',
@@ -58,7 +56,6 @@ describe('ReplyUseCases', () => {
       }));
 
       const replyUseCases = new ReplyUseCases({
-        threadRepository: mockThreadRepository,
         commentRepository: mockCommentRepository,
         replyRepository: mockReplyRepository,
       });
@@ -66,8 +63,6 @@ describe('ReplyUseCases', () => {
       const actual = await replyUseCases.addReply(userId, useCasePayload);
 
       expect(actual).toStrictEqual(expected);
-      expect(mockThreadRepository.isExistingThread)
-        .toBeCalledWith(useCasePayload.threadId);
       expect(mockCommentRepository.isExistingComment)
         .toBeCalledWith(useCasePayload.threadId, useCasePayload.commentId);
       expect(mockReplyRepository.addReply)
@@ -111,28 +106,18 @@ describe('ReplyUseCases', () => {
         replyId: 'reply-1',
       };
 
-      const mockThreadRepository = new ThreadRepository();
-      const mockCommentRepository = new CommentRepository();
       const mockReplyRepository = new ReplyRepository();
 
-      mockThreadRepository.isExistingThread = jest.fn(() => Promise.resolve());
-      mockCommentRepository.isExistingComment = jest.fn(() => Promise.resolve());
       mockReplyRepository.isExistingReply = jest.fn(() => Promise.resolve());
       mockReplyRepository.verifyReplyOwnership = jest.fn(() => Promise.resolve());
       mockReplyRepository.deleteReply = jest.fn(() => Promise.resolve());
 
       const replyUseCases = new ReplyUseCases({
-        threadRepository: mockThreadRepository,
-        commentRepository: mockCommentRepository,
         replyRepository: mockReplyRepository,
       });
 
       await replyUseCases.deleteReply(userId, useCasePayload);
 
-      expect(mockThreadRepository.isExistingThread)
-        .toBeCalledWith(useCasePayload.threadId);
-      expect(mockCommentRepository.isExistingComment)
-        .toBeCalledWith(useCasePayload.threadId, useCasePayload.commentId);
       expect(mockReplyRepository.isExistingReply)
         .toBeCalledWith(useCasePayload.commentId, useCasePayload.replyId);
       expect(mockReplyRepository.verifyReplyOwnership)

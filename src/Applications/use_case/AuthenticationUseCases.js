@@ -25,6 +25,8 @@ class AuthenticationUseCases {
     await this._authenticationRepository.registerToken(refreshToken);
 
     return new NewAuth({
+      id,
+      username,
       accessToken,
       refreshToken,
     });

@@ -13,6 +13,8 @@ describe('AuthenticationUseCases', () => {
         password: 'secret',
       };
       const expected = new NewAuth({
+        id: 'user-1',
+        username: 'John10',
         accessToken: 'access_token',
         refreshToken: 'refresh_token',
       });

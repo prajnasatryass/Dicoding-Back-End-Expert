@@ -7,10 +7,10 @@ class ReplyUseCases {
     this._replyRepository = replyRepository;
   }
 
+  // TODO: UPDATE TEST CASES, REMOVED SOME VALIDATIONS SUCH AS isExistingThread
   async addReply(userId, useCasePayload) {
     this._verifyAddReplyPayload(useCasePayload);
     const { threadId, commentId, content } = useCasePayload;
-    await this._threadRepository.isExistingThread(threadId);
     await this._commentRepository.isExistingComment(threadId, commentId);
     return this._replyRepository.addReply(userId, commentId, content);
   }
@@ -18,8 +18,6 @@ class ReplyUseCases {
   async deleteReply(userId, useCasePayload) {
     this._verifyDeleteReplyPayload(useCasePayload);
     const { threadId, commentId, replyId } = useCasePayload;
-    await this._threadRepository.isExistingThread(threadId);
-    await this._commentRepository.isExistingComment(threadId, commentId);
     await this._replyRepository.isExistingReply(commentId, replyId);
     await this._replyRepository.verifyReplyOwnership(userId, replyId);
     await this._replyRepository.deleteReply(replyId);

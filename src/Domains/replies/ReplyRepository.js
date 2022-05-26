@@ -3,7 +3,7 @@ class ReplyRepository {
     throw new Error('METHOD_NOT_IMPLEMENTED');
   }
 
-  async getCommentReplies(commentId) {
+  async getCommentsReplies(commentIds) {
     throw new Error('METHOD_NOT_IMPLEMENTED');
   }
 
