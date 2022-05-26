@@ -16,7 +16,6 @@ class CommentUseCases {
   async deleteComment(userId, useCasePayload) {
     this._verifyDeleteCommentPayload(useCasePayload);
     const { threadId, commentId } = useCasePayload;
-    await this._threadRepository.isExistingThread(threadId);
     await this._commentRepository.isExistingComment(threadId, commentId);
     await this._commentRepository.verifyCommentOwnership(userId, commentId);
     await this._commentRepository.deleteComment(commentId);
@@ -25,7 +24,6 @@ class CommentUseCases {
   async toggleCommentLikeStatus(userId, useCasePayload) {
     this._verifyToggleCommentLikeStatusPayload(useCasePayload);
     const { threadId, commentId } = useCasePayload;
-    await this._threadRepository.isExistingThread(threadId);
     await this._commentRepository.isExistingComment(threadId, commentId);
     try {
       await this._commentRepository.likeComment(userId, commentId);

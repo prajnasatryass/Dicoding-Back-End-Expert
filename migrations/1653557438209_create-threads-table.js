@@ -1,6 +1,6 @@
 const { PgTypes } = require('../src/Commons/utils/constants');
 
-const tableName = 'comments';
+const tableName = 'threads';
 
 exports.up = (pgm) => {
   pgm.createTable(tableName, {
@@ -8,11 +8,11 @@ exports.up = (pgm) => {
       type: PgTypes.VARCHAR(50),
       primaryKey: true,
     },
-    thread_id: {
-      type: PgTypes.VARCHAR(50),
+    title: {
+      type: PgTypes.TEXT,
       notNull: true,
     },
-    content: {
+    body: {
       type: PgTypes.TEXT,
       notNull: true,
     },
@@ -35,6 +35,8 @@ exports.up = (pgm) => {
       default: null,
     },
   });
+
+  pgm.addConstraint(tableName, 'fk_owner_id', 'FOREIGN KEY(owner_id) REFERENCES users(id) ON DELETE CASCADE');
 };
 
 exports.down = (pgm) => {

@@ -43,7 +43,7 @@ const RepliesTableTestHelper = {
   },
 
   async cleanTable() {
-    await pool.query(`TRUNCATE TABLE ${tableName}`);
+    await pool.query(`DELETE FROM ${tableName} WHERE 1=1`);
   },
 };
 

@@ -11,10 +11,11 @@ class AuthenticationsHandler {
 
   async loginHandler(request, h) {
     const authenticationUseCases = this._container.getInstance(AuthenticationUseCases.name);
-    const { accessToken, refreshToken } = await authenticationUseCases.login(request.payload);
+    const { user, accessToken, refreshToken } = await authenticationUseCases.login(request.payload);
     return h.response({
       status: 'success',
       data: {
+        user,
         accessToken,
         refreshToken,
       },

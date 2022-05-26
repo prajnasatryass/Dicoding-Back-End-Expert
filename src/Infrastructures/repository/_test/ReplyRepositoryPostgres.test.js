@@ -34,6 +34,9 @@ describe('ReplyRepositoryPostgres', () => {
       const fakeIdGenerator = () => '1';
       const replyRepositoryPostgres = new ReplyRepositoryPostgres(pool, fakeIdGenerator);
 
+      await UsersTableTestHelper.addUser({});
+      await ThreadsTableTestHelper.createThread({});
+      await CommentsTableTestHelper.addComment({});
       await replyRepositoryPostgres.addReply(userId, commentId, content);
 
       const reply = await RepliesTableTestHelper.findReply('reply-1');
@@ -47,6 +50,9 @@ describe('ReplyRepositoryPostgres', () => {
       const fakeIdGenerator = () => '1';
       const replyRepositoryPostgres = new ReplyRepositoryPostgres(pool, fakeIdGenerator);
 
+      await UsersTableTestHelper.addUser({});
+      await ThreadsTableTestHelper.createThread({});
+      await CommentsTableTestHelper.addComment({});
       const addedReply = await replyRepositoryPostgres.addReply(userId, commentId, content);
 
       expect(addedReply).toStrictEqual({
@@ -57,30 +63,35 @@ describe('ReplyRepositoryPostgres', () => {
     });
   });
 
-  describe('getCommentReplies', () => {
+  describe('getCommentsReplies', () => {
     it('should return replies', async () => {
-      const userId = 'user-1';
       const commentId = 'comment-1';
       const expected = [{
         id: 'reply-1',
+        comment_id: 'comment-1',
         username: 'John10',
         date: '2022-01-01T00:00:00.000Z',
         content: 'Content',
+        deleted_at: null,
       }];
       const replyRepositoryPostgres = new ReplyRepositoryPostgres(pool, {});
 
-      await UsersTableTestHelper.addUser({ id: userId, username: expected[0].username });
+      await UsersTableTestHelper.addUser({ username: expected[0].username });
+      await ThreadsTableTestHelper.createThread({});
+      await CommentsTableTestHelper.addComment({});
       await RepliesTableTestHelper.addReply({
-        id: expected[0].id, commentId, ownerId: userId, content: expected[0].content,
+        id: expected[0].id, commentId, content: expected[0].content,
       });
 
-      const replies = await replyRepositoryPostgres.getCommentReplies(commentId);
+      const replies = await replyRepositoryPostgres.getCommentsReplies([commentId]);
 
       expect(replies).toHaveLength(1);
       expect(replies[0].id).toStrictEqual(expected[0].id);
+      expect(replies[0].comment_id).toStrictEqual(expected[0].comment_id);
       expect(replies[0].username).toStrictEqual(expected[0].username);
       expect(replies[0].date).toBeDefined();
       expect(replies[0].content).toStrictEqual(expected[0].content);
+      expect(replies[0].deleted_at).toStrictEqual(expected[0].deleted_at);
     });
   });
 
@@ -92,16 +103,17 @@ describe('ReplyRepositoryPostgres', () => {
     });
 
     it('should delete reply correctly', async () => {
-      const userId = 'user-1';
       const commentId = 'comment-1';
       const replyId = 'reply-1';
       const replyRepositoryPostgres = new ReplyRepositoryPostgres(pool, {});
 
-      await UsersTableTestHelper.addUser({ id: userId });
-      await RepliesTableTestHelper.addReply({ id: replyId, commentId });
+      await UsersTableTestHelper.addUser({});
+      await ThreadsTableTestHelper.createThread({});
+      await CommentsTableTestHelper.addComment({});
+      await RepliesTableTestHelper.addReply({});
 
       await replyRepositoryPostgres.deleteReply(replyId);
-      const replies = await replyRepositoryPostgres.getCommentReplies(commentId);
+      const replies = await replyRepositoryPostgres.getCommentsReplies([commentId]);
 
       expect(replies).toHaveLength(1);
       expect(replies[0].id).toStrictEqual(replyId);
@@ -117,6 +129,9 @@ describe('ReplyRepositoryPostgres', () => {
     });
 
     it('should not throw NotFoundError if reply exists', async () => {
+      await UsersTableTestHelper.addUser({});
+      await ThreadsTableTestHelper.createThread({});
+      await CommentsTableTestHelper.addComment({});
       await RepliesTableTestHelper.addReply({ id: 'reply-1', commentId: 'comment-1' });
       const replyRepositoryPostgres = new ReplyRepositoryPostgres(pool, {});
 
@@ -132,15 +147,23 @@ describe('ReplyRepositoryPostgres', () => {
     });
 
     it('should throw AuthorizationError if reply is not owned by user', async () => {
-      await RepliesTableTestHelper.addReply({ id: 'reply-1', ownerId: 'user-2' });
       const replyRepositoryPostgres = new ReplyRepositoryPostgres(pool, {});
 
-      await expect(replyRepositoryPostgres.verifyReplyOwnership('user-1', 'reply-1')).rejects.toThrowError(AuthorizationError);
+      await UsersTableTestHelper.addUser({});
+      await ThreadsTableTestHelper.createThread({});
+      await CommentsTableTestHelper.addComment({});
+      await RepliesTableTestHelper.addReply({});
+
+      await expect(replyRepositoryPostgres.verifyReplyOwnership('user-2', 'reply-1')).rejects.toThrowError(AuthorizationError);
     });
 
     it('should not throw AuthorizationError if reply is owned by user', async () => {
-      await RepliesTableTestHelper.addReply({ id: 'reply-1', ownerId: 'user-1' });
       const replyRepositoryPostgres = new ReplyRepositoryPostgres(pool, {});
+
+      await UsersTableTestHelper.addUser({});
+      await ThreadsTableTestHelper.createThread({});
+      await CommentsTableTestHelper.addComment({});
+      await RepliesTableTestHelper.addReply({});
 
       await expect(replyRepositoryPostgres.verifyReplyOwnership('user-1', 'reply-1')).resolves.not.toThrowError(AuthorizationError);
     });

@@ -22,6 +22,8 @@ exports.up = (pgm) => {
     },
   });
 
+  pgm.addConstraint(tableName, 'fk_comment_id', 'FOREIGN KEY(comment_id) REFERENCES comments(id) ON DELETE CASCADE');
+  pgm.addConstraint(tableName, 'fk_user_id', 'FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE');
   pgm.addConstraint(tableName, 'unique_comment_and_liker_pair', 'UNIQUE(comment_id, user_id)');
 };
 

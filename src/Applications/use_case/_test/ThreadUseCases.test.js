@@ -134,24 +134,24 @@ describe('ThreadUseCases', () => {
           likeCount: 0,
         },
       ]));
-      mockReplyRepository.getCommentReplies = jest.fn()
-        .mockImplementationOnce(() => Promise.resolve([
-          {
-            id: 'reply-1',
-            username: 'John10',
-            date: '2022-01-01T00:00:00.000Z',
-            content: 'Content',
-            deleted_at: null,
-          },
-        ])).mockImplementationOnce(() => Promise.resolve([
-          {
-            id: 'reply-2',
-            username: 'John10',
-            date: '2022-01-01T00:00:00.000Z',
-            content: 'Content',
-            deleted_at: '2022-01-01T00:00:00.000Z',
-          },
-        ]));
+      mockReplyRepository.getCommentsReplies = jest.fn(() => Promise.resolve([
+        {
+          id: 'reply-1',
+          comment_id: 'comment-1',
+          username: 'John10',
+          date: '2022-01-01T00:00:00.000Z',
+          content: 'Content',
+          deleted_at: null,
+        },
+        {
+          id: 'reply-2',
+          comment_id: 'comment-2',
+          username: 'John10',
+          date: '2022-01-01T00:00:00.000Z',
+          content: 'Content',
+          deleted_at: '2022-01-01T00:00:00.000Z',
+        },
+      ]));
 
       const threadUseCases = new ThreadUseCases({
         threadRepository: mockThreadRepository,
@@ -164,7 +164,7 @@ describe('ThreadUseCases', () => {
       expect(actual).toStrictEqual(expected);
       expect(mockThreadRepository.getThread).toBeCalledWith(useCasePayload.threadId);
       expect(mockCommentRepository.getThreadComments).toBeCalledWith(useCasePayload.threadId);
-      expect(mockReplyRepository.getCommentReplies).toBeCalledTimes(2);
+      expect(mockReplyRepository.getCommentsReplies).toBeCalledWith(['comment-1', 'comment-2']);
     });
   });
 });

@@ -102,7 +102,6 @@ describe('CommentUseCases', () => {
       const mockThreadRepository = new ThreadRepository();
       const mockCommentRepository = new CommentRepository();
 
-      mockThreadRepository.isExistingThread = jest.fn(() => Promise.resolve());
       mockCommentRepository.isExistingComment = jest.fn(() => Promise.resolve());
       mockCommentRepository.verifyCommentOwnership = jest.fn(() => Promise.resolve());
       mockCommentRepository.deleteComment = jest.fn(() => Promise.resolve());
@@ -114,8 +113,6 @@ describe('CommentUseCases', () => {
 
       await commentUseCases.deleteComment(userId, useCasePayload);
 
-      expect(mockThreadRepository.isExistingThread)
-        .toBeCalledWith(useCasePayload.threadId);
       expect(mockCommentRepository.isExistingComment)
         .toBeCalledWith(useCasePayload.threadId, useCasePayload.commentId);
       expect(mockCommentRepository.verifyCommentOwnership)
@@ -158,22 +155,17 @@ describe('CommentUseCases', () => {
         commentId: 'comment-1',
       };
 
-      const mockThreadRepository = new ThreadRepository();
       const mockCommentRepository = new CommentRepository();
 
-      mockThreadRepository.isExistingThread = jest.fn(() => Promise.resolve());
       mockCommentRepository.isExistingComment = jest.fn(() => Promise.resolve());
       mockCommentRepository.likeComment = jest.fn(() => Promise.resolve());
 
       const commentUseCases = new CommentUseCases({
-        threadRepository: mockThreadRepository,
         commentRepository: mockCommentRepository,
       });
 
       await commentUseCases.toggleCommentLikeStatus(userId, useCasePayload);
 
-      expect(mockThreadRepository.isExistingThread)
-        .toBeCalledWith(useCasePayload.threadId);
       expect(mockCommentRepository.isExistingComment)
         .toBeCalledWith(useCasePayload.threadId, useCasePayload.commentId);
       expect(mockCommentRepository.likeComment)
@@ -187,23 +179,18 @@ describe('CommentUseCases', () => {
         commentId: 'comment-1',
       };
 
-      const mockThreadRepository = new ThreadRepository();
       const mockCommentRepository = new CommentRepository();
 
-      mockThreadRepository.isExistingThread = jest.fn(() => Promise.resolve());
       mockCommentRepository.isExistingComment = jest.fn(() => Promise.resolve());
       mockCommentRepository.likeComment = jest.fn(() => Promise.reject());
       mockCommentRepository.unlikeComment = jest.fn(() => Promise.resolve());
 
       const commentUseCases = new CommentUseCases({
-        threadRepository: mockThreadRepository,
         commentRepository: mockCommentRepository,
       });
 
       await commentUseCases.toggleCommentLikeStatus(userId, useCasePayload);
 
-      expect(mockThreadRepository.isExistingThread)
-        .toBeCalledWith(useCasePayload.threadId);
       expect(mockCommentRepository.isExistingComment)
         .toBeCalledWith(useCasePayload.threadId, useCasePayload.commentId);
       expect(mockCommentRepository.likeComment)
